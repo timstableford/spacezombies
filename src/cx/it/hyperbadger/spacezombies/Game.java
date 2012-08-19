@@ -11,11 +11,14 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import cx.it.hyperbadger.spacezombies.explorer.Planet;
+
 import static org.lwjgl.opengl.GL11.*;
 @SuppressWarnings("unused")
 public class Game {
 	private int fps, lastFPS;
-	private Texture wood = null;
+	private Texture earth = null;
+	private Planet planetEarth;
 	public Game(){
 		try {
 			Display.setDisplayMode(new DisplayMode(800,600));
@@ -31,8 +34,8 @@ public class Game {
 		glOrtho(0, 800, 600, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_TEXTURE_2D);
-		//load textures
-		wood = getTexture("wood.png");
+		//load planets
+		planetEarth = new Planet(50,10,"Earth",getTexture("earth.png"));
 		//initialize loop
 		while(!Display.isCloseRequested()){
 			loop();
@@ -46,17 +49,7 @@ public class Game {
 		//draw
 		
 		//draw quad 
-		glBegin(GL_QUADS);
-			wood.bind();
-			glTexCoord2f(0,0);
-	    	glVertex2f(100,100); //topleft
-	    	glTexCoord2f(1,0);
-	    	glVertex2f(100+200,100); //top right
-	    	glTexCoord2f(1,1);
-	    	glVertex2f(100+200,100+200); //bottom right
-	    	glTexCoord2f(0,1);
-	    	glVertex2f(100,100+200); //bottom left
-	    glEnd();
+		planetEarth.draw();
 	    
 		//update
 		Display.update();
