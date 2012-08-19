@@ -39,7 +39,7 @@ public class Game {
 		//load planets
 		theSun = new Planet(800,500,100,10000,"Sun","sun.png",null);
 		planetEarth = new Planet(1000,500,10,10,"Earth","earth.png",theSun);
-		theMoon = new Planet(1100,500,3,10,"Moon","moon.png",planetEarth);
+		theMoon = new Planet(1030,500,3,1,"Moon","moon.png",planetEarth);
 		//initialize loop
 		while(!Display.isCloseRequested()){
 			loop();

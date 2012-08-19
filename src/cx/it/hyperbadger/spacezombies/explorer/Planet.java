@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -19,11 +20,13 @@ public class Planet {
 	private Texture texture;
 	private Planet parentObject = null;
 	private double x,y;
+	private ArrayList<Planet> planets;
 	private double initialVelocity = 0;
 	public Planet(int x, int y, int radius, int mass, String name, String texture, Planet parent){
 		this.radius = radius;
 		this.mass = mass;
 		this.name = name;
+		this.planets = new ArrayList<Planet>();
 		try {
 			this.texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/"+texture));
 		} catch (IOException e) {
@@ -33,7 +36,8 @@ public class Planet {
 		this.y = y;
 		if(parent!=null){
 			this.parentObject = parent;
-			initialVelocity = Game.G*(parent.getMass()/(getMe().distance(parent.getMe())));
+			initialVelocity = Math.sqrt(Game.G*(parent.getMass()/(getMe().distance(parent.getMe()))));
+			parent.addChild(this);
 			System.out.println("Initial velocity of "+name+" set to "+initialVelocity);
 		}
 	}
@@ -43,13 +47,24 @@ public class Planet {
 	public int getMass(){
 		return mass;
 	}
+	public void addChild(Planet child){
+		planets.add(child);
+	}
 	public void move(){
 		double deltaY = this.getY()-parentObject.getY();
 		double deltaX = this.getX()-parentObject.getX();
 		double a = Math.atan2(deltaY, deltaX)+Math.PI;
 		double change = 3;
-		double newX = (change*Math.sin(Math.PI-a))+this.getX();
-		double newY = (change*Math.cos(Math.PI-a))+this.getY();
+		double dX = change*Math.sin(Math.PI-a);
+		double dY = change*Math.cos(Math.PI-a);
+		move(dX,dY);
+		for(Planet p: planets){
+			p.move(dX,dY);
+		}
+	}
+	public void move(double dX, double dY){
+		double newX = dX+this.getX();
+		double newY = dY+this.getY();
 		this.x = newX;
 		this.y = newY;
 	}
