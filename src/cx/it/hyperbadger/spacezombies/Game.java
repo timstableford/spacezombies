@@ -17,8 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
 @SuppressWarnings("unused")
 public class Game {
 	private int fps, lastFPS;
-	private Texture earth = null;
-	private Planet planetEarth;
+	private Planet planetEarth, theSun;
 	public Game(){
 		try {
 			Display.setDisplayMode(new DisplayMode(800,600));
@@ -35,7 +34,8 @@ public class Game {
 		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_TEXTURE_2D);
 		//load planets
-		planetEarth = new Planet(50,10,"Earth",getTexture("earth.png"));
+		planetEarth = new Planet(100,100,50,10,"Earth","earth.png");
+		theSun = new Planet(400,300,100,100,"Sun","sun.png");
 		//initialize loop
 		while(!Display.isCloseRequested()){
 			loop();
@@ -49,19 +49,11 @@ public class Game {
 		//draw
 		
 		//draw quad 
+		theSun.draw();
 		planetEarth.draw();
 	    
 		//update
 		Display.update();
 		Display.sync(60);
-	}
-	public Texture getTexture(String name){
-			Texture t = null;
-			try {
-				t = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/"+name));
-			} catch (IOException e) {
-				System.err.println("Could not load texture: "+name);
-			}
-			return t;
 	}
 }
