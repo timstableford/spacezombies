@@ -44,6 +44,7 @@ public class Game {
 		//clear
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
 		//draw
+		
 		//draw quad 
 		glBegin(GL_QUADS);
 			wood.bind();
