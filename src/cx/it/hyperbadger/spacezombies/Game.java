@@ -1,12 +1,14 @@
 package cx.it.hyperbadger.spacezombies;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import static org.lwjgl.opengl.GL11.*;
 @SuppressWarnings("unused")
 public class Game {
+	private int fps, lastFPS;
 	public Game(){
 		try {
 			Display.setDisplayMode(new DisplayMode(800,600));
@@ -35,10 +37,10 @@ public class Game {
 		
 		//draw quad 
 		glBegin(GL_QUADS);
-	    	glVertex2f(100,100);
-	    	glVertex2f(100+200,100);
-	    	glVertex2f(100+200,100+200);
-	    	glVertex2f(100,100+200);
+	    	glVertex2f(100,100); //topleft
+	    	glVertex2f(100+200,100); //top right
+	    	glVertex2f(100+200,100+200); //bottom right
+	    	glVertex2f(100,100+200); //bottom left
 	    glEnd();
 	    
 		//update
