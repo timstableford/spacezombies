@@ -1,6 +1,7 @@
 package cx.it.hyperbadger.spacezombies;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
@@ -17,10 +18,12 @@ import static org.lwjgl.opengl.GL11.*;
 @SuppressWarnings("unused")
 public class Game {
 	private int fps, lastFPS;
-	private Planet planetEarth, theSun;
+	private Planet planetEarth, theSun, theMoon;
+	public static final int G = 7;
+	private static long time, lastFrame;
 	public Game(){
 		try {
-			Display.setDisplayMode(new DisplayMode(800,600));
+			Display.setDisplayMode(new DisplayMode(1600,1000));
 			Display.setTitle("Space Zombies");
 			Display.create();
 		} catch (LWJGLException e) {
@@ -30,12 +33,13 @@ public class Game {
 		//start opengl
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, 800, 600, 0, 1, -1);
+		glOrtho(0, 1600, 1000, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_TEXTURE_2D);
 		//load planets
-		planetEarth = new Planet(100,100,50,10,"Earth","earth.png");
-		theSun = new Planet(400,300,100,100,"Sun","sun.png");
+		theSun = new Planet(800,500,100,10000,"Sun","sun.png",null);
+		planetEarth = new Planet(1000,500,10,10,"Earth","earth.png",theSun);
+		theMoon = new Planet(1100,500,3,10,"Moon","moon.png",planetEarth);
 		//initialize loop
 		while(!Display.isCloseRequested()){
 			loop();
@@ -51,9 +55,17 @@ public class Game {
 		//draw quad 
 		theSun.draw();
 		planetEarth.draw();
-	    
+		theMoon.draw();
+	    planetEarth.move();
+	    theMoon.move();
 		//update
 		Display.update();
 		Display.sync(60);
+	}
+	public static int getDelta() {
+	    long time = Sys.getTime();
+	    int delta = (int) (time - lastFrame);
+	    lastFrame = time;
+	    return delta;
 	}
 }
