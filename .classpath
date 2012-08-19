@@ -6,7 +6,7 @@
 	<classpathentry kind="lib" path="src/cx/it/hyperbadger/spacezombies/jar/lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="src/cx/it/hyperbadger/spacezombies/jar/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="spacezombies/src/cx/it/hyperbadger/spacezombies/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="spacezombies/src/cx/it/hyperbadger/spacezombies/native"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/cx/it/hyperbadger/spacezombies/jar/slick.jar"/>
