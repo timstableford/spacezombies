@@ -54,7 +54,7 @@ public class Planet {
 		double deltaY = this.getY()-parentObject.getY();
 		double deltaX = this.getX()-parentObject.getX();
 		double a = Math.atan2(deltaY, deltaX)+Math.PI;
-		double change = 3;
+		double change = initialVelocity/5;
 		double dX = change*Math.sin(Math.PI-a);
 		double dY = change*Math.cos(Math.PI-a);
 		move(dX,dY);
