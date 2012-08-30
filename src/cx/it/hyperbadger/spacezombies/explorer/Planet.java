@@ -13,18 +13,18 @@ import org.newdawn.slick.util.ResourceLoader;
 import cx.it.hyperbadger.spacezombies.Game;
 
 import static org.lwjgl.opengl.GL11.*;
-public class Planet {
+public class Planet extends Mass implements Drawable{
 	private int radius;
-	private int mass;
 	private String name;
 	private Texture texture;
 	private Planet parentObject = null;
-	private double x,y;
 	private ArrayList<Planet> planets;
 	private double initialVelocity = 0;
+	private double initialDistance = 0;
+	private double angle = 0;
 	public Planet(int x, int y, int radius, int mass, String name, String texture, Planet parent){
+		super(mass,x,y);
 		this.radius = radius;
-		this.mass = mass;
 		this.name = name;
 		this.planets = new ArrayList<Planet>();
 		try {
@@ -32,47 +32,24 @@ public class Planet {
 		} catch (IOException e) {
 			System.err.println("Could not load texture: "+texture);
 		}
-		this.x = x;
-		this.y = y;
 		if(parent!=null){
 			this.parentObject = parent;
-			initialVelocity = Math.sqrt(Game.G*(parent.getMass()/(getMe().distance(parent.getMe()))));
+			initialVelocity = Math.sqrt(Game.G*(parent.getMass()/(this.distance(parent))));
 			parent.addChild(this);
 			System.out.println("Initial velocity of "+name+" set to "+initialVelocity);
+			this.initialDistance = this.distance(parent);
 		}
-	}
-	public Point2D getMe(){
-		return new Point2D.Double(this.x,this.y);
-	}
-	public int getMass(){
-		return mass;
 	}
 	public void addChild(Planet child){
 		planets.add(child);
 	}
 	public void move(){
-		double deltaY = this.getY()-parentObject.getY();
-		double deltaX = this.getX()-parentObject.getX();
-		double a = Math.atan2(deltaY, deltaX)+Math.PI;
-		double change = initialVelocity/5;
-		double dX = change*Math.sin(Math.PI-a);
-		double dY = change*Math.cos(Math.PI-a);
-		move(dX,dY);
-		for(Planet p: planets){
-			p.move(dX,dY);
+		angle = angle + Math.pow(initialVelocity,0.3)/220;
+		if(angle>Math.PI*2){
+			angle = 0;
 		}
-	}
-	public void move(double dX, double dY){
-		double newX = dX+this.getX();
-		double newY = dY+this.getY();
-		this.x = newX;
-		this.y = newY;
-	}
-	public double getX(){
-		return x;
-	}
-	public double getY(){
-		return y;
+		this.x = initialDistance*Math.sin(angle)+parentObject.getX();
+		this.y = initialDistance*Math.cos(angle)+parentObject.getY();
 	}
 	public void draw(){
 		texture.bind();
@@ -86,13 +63,5 @@ public class Planet {
     	glTexCoord2f(0,1);
     	glVertex2f((int)x-radius,(int)y+radius); //bottom left
     	glEnd();
-	}
-	public int getForce(Planet other){
-		double distance = this.getMe().distance(other.getMe());
-		System.out.println("rad = "+distance);
-		distance = Math.pow(distance,2);
-		int force = (int) (Game.G*this.mass*other.getMass()/distance);
-		System.out.println(force);
-		return force;
 	}
 }

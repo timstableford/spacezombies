@@ -39,7 +39,7 @@ public class Game {
 		//load planets
 		theSun = new Planet(800,500,100,10000,"Sun","sun.png",null);
 		planetEarth = new Planet(1000,500,20,10,"Earth","earth.png",theSun);
-		theMoon = new Planet(1020,500,5,1,"Moon","moon.png",planetEarth);
+		theMoon = new Planet(1025,500,5,1,"Moon","moon.png",planetEarth);
 		//initialize loop
 		while(!Display.isCloseRequested()){
 			loop();
@@ -56,8 +56,8 @@ public class Game {
 		theSun.draw();
 		planetEarth.draw();
 		theMoon.draw();
-	    //planetEarth.move();
-	    //theMoon.move();
+	    planetEarth.move();
+	    theMoon.move();
 		//update
 		Display.update();
 		Display.sync(60);
