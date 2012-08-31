@@ -26,8 +26,10 @@ public class Ship extends Mass implements Drawable{
 	@Override
 	public void draw() {
 		texture.bind();
-		int h = texture.getImageHeight();
-		int w = texture.getImageWidth();
+		//int h = texture.getImageHeight();
+		//int w = texture.getImageWidth();
+		int h = 20;
+		int w = 20;
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
     	glVertex2f((int)x-w,(int)y-h); //topleft

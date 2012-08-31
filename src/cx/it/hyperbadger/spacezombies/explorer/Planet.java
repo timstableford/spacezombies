@@ -13,7 +13,7 @@ import org.newdawn.slick.util.ResourceLoader;
 import cx.it.hyperbadger.spacezombies.Game;
 
 import static org.lwjgl.opengl.GL11.*;
-public class Planet extends Mass implements Drawable{
+public class Planet extends Mass implements Drawable, Moveable{
 	private int radius;
 	private String name;
 	private Texture texture;
@@ -40,16 +40,21 @@ public class Planet extends Mass implements Drawable{
 			this.initialDistance = this.distance(parent);
 		}
 	}
+	public String getName(){
+		return name;
+	}
 	public void addChild(Planet child){
 		planets.add(child);
 	}
 	public void move(){
-		angle = angle + Math.pow(initialVelocity,0.3)/220;
-		if(angle>Math.PI*2){
-			angle = 0;
+		if(parentObject!=null){
+			angle = angle + Math.pow(initialVelocity,0.1)/220;
+			if(angle>Math.PI*2){
+				angle = 0;
+			}
+			this.x = initialDistance*Math.sin(angle)+parentObject.getX();
+			this.y = initialDistance*Math.cos(angle)+parentObject.getY();
 		}
-		this.x = initialDistance*Math.sin(angle)+parentObject.getX();
-		this.y = initialDistance*Math.cos(angle)+parentObject.getY();
 	}
 	public void draw(){
 		texture.bind();
