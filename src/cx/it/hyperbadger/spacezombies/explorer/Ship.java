@@ -9,12 +9,16 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 public class Ship extends Mass implements Drawable{
 	private Texture texture = null;
+	private float rotation = 0;
+	private Vector2f velocity = new Vector2f();
 	public Ship(int mass, int x, int y, String texture){
 		super(mass,x,y);
 		try {
@@ -30,6 +34,9 @@ public class Ship extends Mass implements Drawable{
 		//int w = texture.getImageWidth();
 		int h = 20;
 		int w = 20;
+		GL11.glTranslatef((float)x, (float)y, 0);
+		GL11.glRotatef(rotation, 0f, 0f, 1f);
+		GL11.glTranslatef(-(float)x, -(float)y, 0);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
     	glVertex2f((int)x-w,(int)y-h); //topleft
@@ -40,8 +47,12 @@ public class Ship extends Mass implements Drawable{
     	glTexCoord2f(0,1);
     	glVertex2f((int)x-w,(int)y+h); //bottom left
     	glEnd();
+    	GL11.glTranslatef((float)x, (float)y, 0);
+    	GL11.glRotatef(-rotation, 0f, 0f, 1f);
+    	GL11.glTranslatef(-(float)x, -(float)y, 0);
 	}
 	public void move(ArrayList<Mass> attracts){
-		
+		rotation++;
+		velocity
 	}
 }

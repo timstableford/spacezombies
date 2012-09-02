@@ -2,7 +2,7 @@ package cx.it.hyperbadger.spacezombies.explorer;
 
 import java.util.ArrayList;
 
-public class SolarSystem {
+public class SolarSystem implements Drawable, Moveable{
 	private ArrayList<Planet> planets;
 	private String name;
 	public SolarSystem(String name, ArrayList<Planet> planets){

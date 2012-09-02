@@ -41,13 +41,16 @@ public class Game {
 		glOrtho(0, 1600, 1000, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_TEXTURE_2D);
+		glShadeModel(GL11.GL_SMOOTH);                            // Enable Smooth Shading
+        glClearColor(0.0f, 0.0f, 0.0f, 0.5f);               // Black Background
+        glClearDepth(1.0f);
 		//load planets
 		ArrayList<Planet> solPlanets = new ArrayList<Planet>();
 		sol = new SolarSystem("Sole",solPlanets);
 		solPlanets.add(new Planet(800,500,100,10000,"Sun","sun.png",null));
 		solPlanets.add(new Planet(1000,500,20,10,"Earth","earth.png",sol.findPlanet("Sun")));
 		solPlanets.add(new Planet(1025,500,5,1,"Moon","moon.png",sol.findPlanet("Earth")));
-		ship = new Ship(60,200,200,"spaceship.png");
+		ship = new Ship(600,600,200,"spaceship.png");
 		//initialize loop
 		while(!Display.isCloseRequested()){
 			loop();
