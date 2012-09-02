@@ -15,7 +15,6 @@ import cx.it.hyperbadger.spacezombies.Game;
 import static org.lwjgl.opengl.GL11.*;
 public class Planet extends Mass implements Drawable, Moveable{
 	private int radius;
-	private String name;
 	private Texture texture;
 	private Planet parentObject = null;
 	private ArrayList<Planet> planets;
@@ -23,9 +22,8 @@ public class Planet extends Mass implements Drawable, Moveable{
 	private double initialDistance = 0;
 	private double angle = 0;
 	public Planet(int x, int y, int radius, int mass, String name, String texture, Planet parent){
-		super(mass,x,y);
+		super(mass,x,y,name);
 		this.radius = radius;
-		this.name = name;
 		this.planets = new ArrayList<Planet>();
 		try {
 			this.texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/"+texture));
@@ -39,9 +37,6 @@ public class Planet extends Mass implements Drawable, Moveable{
 			System.out.println("Initial velocity of "+name+" set to "+initialVelocity);
 			this.initialDistance = this.distance(parent);
 		}
-	}
-	public String getName(){
-		return name;
 	}
 	public void addChild(Planet child){
 		planets.add(child);

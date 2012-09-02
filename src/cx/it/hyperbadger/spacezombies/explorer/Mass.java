@@ -5,20 +5,23 @@ import java.awt.geom.Point2D;
 import cx.it.hyperbadger.spacezombies.Game;
 
 public class Mass {
+	protected String name = "";
 	protected int mass = 0;
 	protected double x = 0, y = 0;
-	public Mass(int mass, double x, double y){
+	public Mass(int mass, double x, double y, String name){
 		this.mass = mass;
 		this.x = x;
 		this.y = y;
+		this.name = name;
 	}
-	public double getForce(Planet other){
+	public double getForceMagnitude(Mass other){
 		double distance = this.getMe().distance(other.getMe());
-		System.out.println("rad = "+distance);
 		distance = Math.pow(distance,2);
 		double force = (Game.G*this.mass*other.getMass()/distance);
-		System.out.println(force);
 		return force;
+	}
+	public String getName(){
+		return name;
 	}
 	public int getMass(){
 		return mass;
@@ -38,7 +41,7 @@ public class Mass {
 	public double getY(){
 		return y;
 	}
-	public double distance(Planet p){
+	public double distance(Mass p){
 		Point2D a = new Point2D.Double(p.getX(),p.getY());
 		Point2D b = new Point2D.Double(this.getX(),this.getY());
 		return a.distance(b);

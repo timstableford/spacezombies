@@ -20,7 +20,7 @@ public class Ship extends Mass implements Drawable{
 	private float rotation = 0;
 	private Vector2f velocity = new Vector2f();
 	public Ship(int mass, int x, int y, String texture){
-		super(mass,x,y);
+		super(mass,x,y,"Ship");
 		try {
 			this.texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/"+texture));
 		} catch (IOException e) {
@@ -53,6 +53,32 @@ public class Ship extends Mass implements Drawable{
 	}
 	public void move(ArrayList<Mass> attracts){
 		rotation++;
-		velocity
+		
+		Vector2f resultent = new Vector2f();
+		for(Mass m: attracts){
+			Vector2f.add(resultent, getVectorForce(this,m), resultent);
+		}
+		System.out.println(resultent);
+		
+		
+	}
+	private Vector2f getVectorForce(Mass from, Mass to){
+		//from ship
+		//to planet
+		Vector2f ship = new Vector2f();
+		ship.x = (float)this.getX();
+		ship.y = (float)this.getY();
+		Vector2f mass = new Vector2f();
+		mass.x = (float)to.getX();
+		mass.y = (float)to.getY();
+		Vector2f force = new Vector2f();
+		Vector2f.sub(mass, ship, force);
+		Vector2f unitVector = new Vector2f();
+		float divisor = (float) Math.sqrt(Math.pow(force.x, 2)+Math.pow(force.y, 2));
+		unitVector.set(force.x/divisor,force.y/divisor);
+		float magnitude = (float) this.getForceMagnitude(to);
+		Vector2f magVec = new Vector2f();
+		magVec.set(unitVector.x*magnitude,unitVector.y*magnitude);
+		return magVec;
 	}
 }
