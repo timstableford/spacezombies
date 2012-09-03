@@ -15,6 +15,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import cx.it.hyperbadger.spacezombies.Game;
+
 public class Ship extends Mass implements Drawable{
 	private Texture texture = null;
 	private float rotation = 0;
@@ -34,9 +36,9 @@ public class Ship extends Mass implements Drawable{
 		//int w = texture.getImageWidth();
 		int h = 20;
 		int w = 20;
-		GL11.glTranslatef((float)x, (float)y, 0);
-		GL11.glRotatef(rotation, 0f, 0f, 1f);
-		GL11.glTranslatef(-(float)x, -(float)y, 0);
+		//GL11.glTranslatef((float)x, (float)y, 0);
+		//GL11.glRotatef(rotation, 0f, 0f, 1f);
+		//GL11.glTranslatef(-(float)x, -(float)y, 0);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
     	glVertex2f((int)x-w,(int)y-h); //topleft
@@ -47,22 +49,30 @@ public class Ship extends Mass implements Drawable{
     	glTexCoord2f(0,1);
     	glVertex2f((int)x-w,(int)y+h); //bottom left
     	glEnd();
-    	GL11.glTranslatef((float)x, (float)y, 0);
-    	GL11.glRotatef(-rotation, 0f, 0f, 1f);
-    	GL11.glTranslatef(-(float)x, -(float)y, 0);
+    	//GL11.glTranslatef((float)x, (float)y, 0);
+    	//GL11.glRotatef(-rotation, 0f, 0f, 1f);
+    	//GL11.glTranslatef(-(float)x, -(float)y, 0);
 	}
 	public void move(ArrayList<Mass> attracts){
-		rotation++;
+		//rotation++;
 		
-		Vector2f resultent = new Vector2f();
+		Vector2f acceleration = new Vector2f();
 		for(Mass m: attracts){
-			Vector2f.add(resultent, getVectorForce(this,m), resultent);
+			Vector2f.add(acceleration, getVectorAcceleration(this,m), acceleration);
 		}
-		System.out.println(resultent);
-		
-		
+		//update velocity
+		//Vector2f.add(velocity, acceleration, velocity);
+		velocity.x = velocity.x + acceleration.x*(float)0.16;
+		velocity.y = velocity.y + acceleration.y*(float)0.16;
+		//find displacement
+		//double sX = 0.5*acceleration.x*Game.getDelta()*Game.getDelta();
+		//double sY = 0.5*acceleration.y*Game.getDelta()*Game.getDelta();
+		//update coordinates
+		this.x = this.x + velocity.x*0.16;
+		this.y = this.y + velocity.y*0.16;
+		System.out.println(acceleration);
 	}
-	private Vector2f getVectorForce(Mass from, Mass to){
+	private Vector2f getVectorAcceleration(Mass from, Mass to){
 		//from ship
 		//to planet
 		Vector2f ship = new Vector2f();
@@ -76,7 +86,7 @@ public class Ship extends Mass implements Drawable{
 		Vector2f unitVector = new Vector2f();
 		float divisor = (float) Math.sqrt(Math.pow(force.x, 2)+Math.pow(force.y, 2));
 		unitVector.set(force.x/divisor,force.y/divisor);
-		float magnitude = (float) this.getForceMagnitude(to);
+		float magnitude = (float) this.getAccelerationMagnitude(to);
 		Vector2f magVec = new Vector2f();
 		magVec.set(unitVector.x*magnitude,unitVector.y*magnitude);
 		return magVec;

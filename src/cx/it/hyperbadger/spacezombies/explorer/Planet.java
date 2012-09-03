@@ -47,8 +47,8 @@ public class Planet extends Mass implements Drawable, Moveable{
 			if(angle>Math.PI*2){
 				angle = 0;
 			}
-			this.x = initialDistance*Math.sin(angle)+parentObject.getX();
-			this.y = initialDistance*Math.cos(angle)+parentObject.getY();
+			this.x = (float) (initialDistance*Math.sin(angle)+parentObject.getX());
+			this.y = (float) (initialDistance*Math.cos(angle)+parentObject.getY());
 		}
 	}
 	public void draw(){

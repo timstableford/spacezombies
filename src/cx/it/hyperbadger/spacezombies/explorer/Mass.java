@@ -17,7 +17,16 @@ public class Mass {
 	public double getForceMagnitude(Mass other){
 		double distance = this.getMe().distance(other.getMe());
 		distance = Math.pow(distance,2);
+		if(distance<0.1){
+			distance = 0.1;
+		}
 		double force = (Game.G*this.mass*other.getMass()/distance);
+		return force;
+	}
+	public double getAccelerationMagnitude(Mass other){
+		double distance = this.getMe().distance(other.getMe());
+		distance = Math.pow(distance,2);
+		double force = ((Game.G*other.getMass())/distance);
 		return force;
 	}
 	public String getName(){

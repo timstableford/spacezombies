@@ -22,7 +22,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Game {
 	private int fps, lastFPS;
 	private Planet planetEarth, theSun, theMoon;
-	public static final int G = 7;
+	public static final double G = 4;
 	private static long time, lastFrame;
 	private SolarSystem sol = null;
 	private Ship ship = null;
@@ -50,7 +50,7 @@ public class Game {
 		solPlanets.add(new Planet(800,500,100,10000,"Sun","sun.png",null));
 		solPlanets.add(new Planet(1000,500,20,10,"Earth","earth.png",sol.findPlanet("Sun")));
 		solPlanets.add(new Planet(1025,500,5,1,"Moon","moon.png",sol.findPlanet("Earth")));
-		ship = new Ship(600,600,200,"spaceship.png");
+		ship = new Ship(100,1000,800,"spaceship.png");
 		//initialize loop
 		while(!Display.isCloseRequested()){
 			loop();
@@ -69,11 +69,5 @@ public class Game {
 		//update
 		Display.update();
 		Display.sync(60);
-	}
-	public static int getDelta() {
-	    long time = Sys.getTime();
-	    int delta = (int) (time - lastFrame);
-	    lastFrame = time;
-	    return delta;
 	}
 }
