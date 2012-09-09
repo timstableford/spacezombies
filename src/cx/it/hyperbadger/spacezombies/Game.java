@@ -15,6 +15,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import cx.it.hyperbadger.spacezombies.explorer.Planet;
 import cx.it.hyperbadger.spacezombies.explorer.Ship;
+import cx.it.hyperbadger.spacezombies.explorer.ShipControl;
 import cx.it.hyperbadger.spacezombies.explorer.SolarSystem;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -22,13 +23,16 @@ import static org.lwjgl.opengl.GL11.*;
 public class Game {
 	private int fps, lastFPS;
 	private Planet planetEarth, theSun, theMoon;
-	public static final double G = 4;
+	public static final double G = 100;
 	private static long time, lastFrame;
 	private SolarSystem sol = null;
 	private Ship ship = null;
+	public static long delta = 160;
+	private ShipControl shipControl = null;
+	private int screenWidth = 1000, screenHeight = 750;
 	public Game(){
 		try {
-			Display.setDisplayMode(new DisplayMode(1600,1000));
+			Display.setDisplayMode(new DisplayMode(screenWidth,screenHeight));
 			Display.setTitle("Space Zombies");
 			Display.create();
 		} catch (LWJGLException e) {
@@ -38,7 +42,7 @@ public class Game {
 		//start opengl
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, 1600, 1000, 0, 1, -1);
+		glOrtho(0, screenWidth, screenHeight, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_TEXTURE_2D);
 		glShadeModel(GL11.GL_SMOOTH);                            // Enable Smooth Shading
@@ -51,7 +55,11 @@ public class Game {
 		solPlanets.add(new Planet(1000,500,20,10,"Earth","earth.png",sol.findPlanet("Sun")));
 		solPlanets.add(new Planet(1025,500,5,1,"Moon","moon.png",sol.findPlanet("Earth")));
 		ship = new Ship(100,1000,800,"spaceship.png");
+		shipControl = new ShipControl(ship);
 		//initialize loop
+		Display.update();
+		Display.sync(60);
+		Game.delta = getDelta();
 		while(!Display.isCloseRequested()){
 			loop();
 		}
@@ -66,8 +74,20 @@ public class Game {
 		sol.draw();
 		ship.draw();
 		ship.move(sol.getMasses());
+		shipControl.update();
 		//update
 		Display.update();
 		Display.sync(60);
+		Display.setTitle("Space Zombies - "+ship.getVelocity()+"m/s");
+		Game.delta = getDelta();
+	}
+	public int getDelta() {
+		long time = getTime();
+		int delta = (int) (time - lastFrame);
+		lastFrame = time;
+		return delta;
+	}
+	public long getTime() {
+		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
 	}
 }
