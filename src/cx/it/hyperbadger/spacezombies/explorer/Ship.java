@@ -39,9 +39,9 @@ public class Ship extends Mass implements Drawable{
 		//int h = 20;
 		//int w = 20;
 		calculateAngle();
-		GL11.glTranslatef((float)x, (float)y, 0);
+		GL11.glTranslatef((float)x+w/2, (float)y+h/2, 0);
 		GL11.glRotatef(rotation, 0f, 0f, 1f);
-		GL11.glTranslatef(-(float)x, -(float)y, 0);
+		GL11.glTranslatef(-(float)x-w/2, -(float)y-h/2, 0);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
     	glVertex2f((int)x-w,(int)y-h); //topleft
@@ -52,9 +52,9 @@ public class Ship extends Mass implements Drawable{
     	glTexCoord2f(0,1);
     	glVertex2f((int)x-w,(int)y+h); //bottom left
     	glEnd();
-    	GL11.glTranslatef((float)x, (float)y, 0);
-    	GL11.glRotatef(-rotation, 0f, 0f, 1f);
-    	GL11.glTranslatef(-(float)x, -(float)y, 0);
+    	GL11.glTranslatef((float)x+w/2, (float)y+h/2, 0);
+		GL11.glRotatef(-rotation, 0f, 0f, 1f);
+		GL11.glTranslatef(-(float)x-w/2, -(float)y-h/2, 0);
 	}
 	public void applyForce(Vector2f force){
 		velocity.x = velocity.x + (force.x*Game.delta/1000)/this.mass;

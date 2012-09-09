@@ -29,7 +29,7 @@ public class Game {
 	private Ship ship = null;
 	public static long delta = 160;
 	private ShipControl shipControl = null;
-	private int screenWidth = 1000, screenHeight = 750;
+	private int screenWidth = 1500, screenHeight = 1000;
 	public Game(){
 		try {
 			Display.setDisplayMode(new DisplayMode(screenWidth,screenHeight));
@@ -48,6 +48,8 @@ public class Game {
 		glShadeModel(GL11.GL_SMOOTH);                            // Enable Smooth Shading
         glClearColor(0.0f, 0.0f, 0.0f, 0.5f);               // Black Background
         glClearDepth(1.0f);
+        glEnable(GL_BLEND); 
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		//load planets
 		ArrayList<Planet> solPlanets = new ArrayList<Planet>();
 		sol = new SolarSystem("Sole",solPlanets);
