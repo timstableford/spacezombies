@@ -33,6 +33,9 @@ public class Game {
 	public static long delta = 160;
 	private ShipControl shipControl = null;
 	private int screenWidth = 1000, screenHeight = 700;
+	public static void main(String[] args){
+		new Game();
+	}
 	public Game(){
 		try {
 			Display.setDisplayMode(new DisplayMode(screenWidth,screenHeight));
