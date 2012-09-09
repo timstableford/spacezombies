@@ -8,15 +8,18 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import cx.it.hyperbadger.spacezombies.explorer.Mass;
 import cx.it.hyperbadger.spacezombies.explorer.Planet;
 import cx.it.hyperbadger.spacezombies.explorer.Ship;
 import cx.it.hyperbadger.spacezombies.explorer.ShipControl;
 import cx.it.hyperbadger.spacezombies.explorer.SolarSystem;
+import cx.it.hyperbadger.spacezombies.explorer.Sun;
 
 import static org.lwjgl.opengl.GL11.*;
 @SuppressWarnings("unused")
@@ -29,7 +32,7 @@ public class Game {
 	private Ship ship = null;
 	public static long delta = 160;
 	private ShipControl shipControl = null;
-	private int screenWidth = 1500, screenHeight = 1000;
+	private int screenWidth = 1000, screenHeight = 700;
 	public Game(){
 		try {
 			Display.setDisplayMode(new DisplayMode(screenWidth,screenHeight));
@@ -45,18 +48,21 @@ public class Game {
 		glOrtho(0, screenWidth, screenHeight, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 		glEnable(GL_TEXTURE_2D);
-		glShadeModel(GL11.GL_SMOOTH);                            // Enable Smooth Shading
-        glClearColor(0.0f, 0.0f, 0.0f, 0.5f);               // Black Background
+        //clear background
+		glClearColor(0.0f, 0.0f, 0.0f, 0.5f);               // Black Background
         glClearDepth(1.0f);
+        //png transparency fix
         glEnable(GL_BLEND); 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //antistropic filtering
+        glTexParameteri(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, 8);
 		//load planets
-		ArrayList<Planet> solPlanets = new ArrayList<Planet>();
-		sol = new SolarSystem("Sole",solPlanets);
-		solPlanets.add(new Planet(800,500,100,10000,"Sun","sun.png",null));
-		solPlanets.add(new Planet(1000,500,20,10,"Earth","earth.png",sol.findPlanet("Sun")));
-		solPlanets.add(new Planet(1025,500,5,1,"Moon","moon.png",sol.findPlanet("Earth")));
-		ship = new Ship(100,1000,800,"spaceship.png");
+		ArrayList<Mass> solMass = new ArrayList<Mass>();
+		sol = new SolarSystem("Sole",solMass);
+		solMass.add(new Sun(10000,400,400,"Sun","sun.png",50));
+		solMass.add(new Planet(200,0,20,10,"Earth","earth.png",sol.findMass("Sun")));
+		solMass.add(new Planet(20,0,6,1,"Moon","moon.png",sol.findMass("Earth")));
+		ship = new Ship(100,100,100,"spaceship.png");
 		shipControl = new ShipControl(ship);
 		//initialize loop
 		Display.update();

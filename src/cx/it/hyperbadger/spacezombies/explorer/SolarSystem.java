@@ -3,14 +3,14 @@ package cx.it.hyperbadger.spacezombies.explorer;
 import java.util.ArrayList;
 
 public class SolarSystem implements Drawable, Moveable{
-	private ArrayList<Planet> planets;
+	private ArrayList<Mass> masses;
 	private String name;
-	public SolarSystem(String name, ArrayList<Planet> planets){
+	public SolarSystem(String name, ArrayList<Mass> masses){
 		this.name = name;
-		this.planets = planets;
+		this.masses = masses;
 	}
-	public Planet findPlanet(String n){
-		for(Planet p: planets){
+	public Mass findMass(String n){
+		for(Mass p: masses){
 			if(p.getName().equals(n)){
 				return p;
 			}
@@ -18,29 +18,25 @@ public class SolarSystem implements Drawable, Moveable{
 		return null;
 	}
 	public void draw(){
-		for(Planet p: planets){
+		for(Mass p: masses){
 			if(p instanceof Drawable){
-				p.draw();
+				Drawable d = (Drawable) p;
+				d.draw();
 			}
 		}
 	}
 	public void move(){
-		for(Planet p: planets){
+		for(Mass p: masses){
 			if(p instanceof Moveable){
-				p.move();
+				Moveable m = (Moveable) p;
+				m.move();
 			}
 		}
-	}
-	public ArrayList<Planet> getPlanets(){
-		return planets;
 	}
 	public ArrayList<Mass> getMasses(){
-		ArrayList<Mass> m = new ArrayList<Mass>();
-		for(Planet p: planets){
-			if(p instanceof Mass){
-				m.add(p);
-			}
-		}
-		return m;
+		return masses;
+	}
+	public String getName(){
+		return name;
 	}
 }
