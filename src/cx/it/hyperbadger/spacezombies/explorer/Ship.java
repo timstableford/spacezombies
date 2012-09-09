@@ -25,7 +25,7 @@ public class Ship extends Mass implements Drawable{
 	public Ship(int mass, int x, int y, String texture){
 		super(mass,x,y,"Ship");
 		try {
-			this.texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/"+texture));
+			this.texture = TextureLoader.getTexture("PNG", ClassLoader.class.getResourceAsStream("/cx/it/hyperbadger/spacezombies/res/"+texture));
 		} catch (IOException e) {
 			System.err.println("Could not load texture: "+texture);
 		}

@@ -26,7 +26,7 @@ public class Planet extends Mass implements Drawable, Moveable{
 		this.orbitRadius = orbitRadius;
 		//load texture
 		try {
-			this.texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/"+texture));
+			this.texture = TextureLoader.getTexture("PNG", ClassLoader.class.getResourceAsStream("/cx/it/hyperbadger/spacezombies/res/"+texture));
 		} catch (IOException e) {
 			System.err.println("Could not load texture: "+texture);
 		}
