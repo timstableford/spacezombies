@@ -62,10 +62,10 @@ public class Game {
 		//load planets
 		ArrayList<Mass> solMass = new ArrayList<Mass>();
 		sol = new SolarSystem("Sole",solMass);
-		solMass.add(new Sun(10000,400,400,"Sun","sun.png",50));
+		solMass.add(new Sun(10000,0,0,"Sun","sun.png",50));
 		solMass.add(new Planet(200,0,20,10,"Earth","earth.png",sol.findMass("Sun")));
 		solMass.add(new Planet(20,0,6,1,"Moon","moon.png",sol.findMass("Earth")));
-		ship = new Ship(100,100,100,"spaceship.png");
+		ship = new Ship(200,200,100,"spaceship.png");
 		shipControl = new ShipControl(ship);
 		//initialize loop
 		Display.update();
