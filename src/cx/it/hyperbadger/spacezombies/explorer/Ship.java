@@ -9,6 +9,7 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.opengl.Texture;
@@ -20,6 +21,7 @@ public class Ship extends Mass implements Drawable{
 	private Texture texture = null;
 	private float rotation = 0;
 	private boolean first = true;
+	private int h,w;
 	private Vector2f velocity = new Vector2f();
 	public Ship(int mass, int x, int y, String texture){
 		super(mass,x,y,"Ship");
@@ -28,15 +30,13 @@ public class Ship extends Mass implements Drawable{
 		} catch (IOException e) {
 			System.err.println("Could not load texture: "+texture);
 		}
+		h = this.texture.getImageHeight()/20;
+		w = this.texture.getImageWidth()/20;
 		velocity.set(0,0);
-	}
+	}/*
 	@Override
 	public void draw() {
 		texture.bind();
-		int h = texture.getImageHeight()/20;
-		int w = texture.getImageWidth()/20;
-		//int h = 20;
-		//int w = 20;
 		calculateAngle();
 		GL11.glTranslatef((float)x+w/2, (float)y+h/2, 0);
 		GL11.glRotatef(rotation, 0f, 0f, 1f);
@@ -54,11 +54,33 @@ public class Ship extends Mass implements Drawable{
     	GL11.glTranslatef((float)x+w/2, (float)y+h/2, 0);
 		GL11.glRotatef(-rotation, 0f, 0f, 1f);
 		GL11.glTranslatef(-(float)x-w/2, -(float)y-h/2, 0);
+	}*/
+	@Override
+	public void draw() {
+		texture.bind();
+		calculateAngle();
+		GL11.glTranslatef((float)Display.getWidth()/2+w/2, (float)Display.getHeight()/2+h/2, 0);
+		GL11.glRotatef(rotation, 0f, 0f, 1f);
+		GL11.glTranslatef(-(float)Display.getWidth()/2-w/2, -(float)Display.getHeight()/2-h/2, 0);
+		glBegin(GL_QUADS);
+		glTexCoord2f(0,0);
+    	glVertex2f((int)Display.getWidth()/2-w,(int)Display.getHeight()/2-h); //topleft
+    	glTexCoord2f(1,0);
+    	glVertex2f((int)Display.getWidth()/2+w,(int)Display.getHeight()/2-h); //top right
+    	glTexCoord2f(1,1);
+    	glVertex2f((int)Display.getWidth()/2+w,(int)Display.getHeight()/2+h); //bottom right
+    	glTexCoord2f(0,1);
+    	glVertex2f((int)Display.getWidth()/2-w,(int)Display.getHeight()/2+h); //bottom left
+    	glEnd();
+    	GL11.glTranslatef((float)Display.getWidth()/2+w/2, (float)Display.getHeight()/2+h/2, 0);
+		GL11.glRotatef(-rotation, 0f, 0f, 1f);
+		GL11.glTranslatef(-(float)Display.getWidth()/2-w/2, -(float)Display.getHeight()/2-h/2, 0);
 	}
 	public void applyForce(Vector2f force){
 		velocity.x = velocity.x + (force.x*Game.delta/1000)/this.mass;
 		velocity.y = velocity.y + (force.y*Game.delta/1000)/this.mass;
 	}
+
 	public void move(ArrayList<Mass> attracts){
 		Vector2f planetForce = new Vector2f(0,0);
 		for(Mass m: attracts){

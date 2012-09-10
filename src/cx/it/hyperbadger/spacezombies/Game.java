@@ -82,10 +82,17 @@ public class Game {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
 		//draw
 		sol.move();
-		sol.draw();
-		ship.draw();
-		ship.move(sol.getMasses());
 		shipControl.update();
+		ship.move(sol.getMasses());
+		//translate
+		double x = ship.getX()-Display.getWidth()/2;
+		double y = ship.getY()-Display.getHeight()/2;
+		GL11.glTranslatef(-(float)x, -(float)y, 0);
+		//draw
+		sol.draw();
+		//detrsnalate
+		GL11.glTranslatef((float)x, (float)y, 0);
+		ship.draw();
 		//update
 		Display.update();
 		Display.sync(60);
