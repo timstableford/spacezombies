@@ -33,28 +33,7 @@ public class Ship extends Mass implements Drawable{
 		h = this.texture.getImageHeight()/20;
 		w = this.texture.getImageWidth()/20;
 		velocity.set(0,0);
-	}/*
-	@Override
-	public void draw() {
-		texture.bind();
-		calculateAngle();
-		GL11.glTranslatef((float)x+w/2, (float)y+h/2, 0);
-		GL11.glRotatef(rotation, 0f, 0f, 1f);
-		GL11.glTranslatef(-(float)x-w/2, -(float)y-h/2, 0);
-		glBegin(GL_QUADS);
-		glTexCoord2f(0,0);
-    	glVertex2f((int)x-w,(int)y-h); //topleft
-    	glTexCoord2f(1,0);
-    	glVertex2f((int)x+w,(int)y-h); //top right
-    	glTexCoord2f(1,1);
-    	glVertex2f((int)x+w,(int)y+h); //bottom right
-    	glTexCoord2f(0,1);
-    	glVertex2f((int)x-w,(int)y+h); //bottom left
-    	glEnd();
-    	GL11.glTranslatef((float)x+w/2, (float)y+h/2, 0);
-		GL11.glRotatef(-rotation, 0f, 0f, 1f);
-		GL11.glTranslatef(-(float)x-w/2, -(float)y-h/2, 0);
-	}*/
+	}
 	@Override
 	public void draw() {
 		texture.bind();

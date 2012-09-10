@@ -14,12 +14,14 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import cx.it.hyperbadger.spacezombies.explorer.ExplorerGUI;
 import cx.it.hyperbadger.spacezombies.explorer.Mass;
 import cx.it.hyperbadger.spacezombies.explorer.Planet;
 import cx.it.hyperbadger.spacezombies.explorer.Ship;
 import cx.it.hyperbadger.spacezombies.explorer.ShipControl;
 import cx.it.hyperbadger.spacezombies.explorer.SolarSystem;
 import cx.it.hyperbadger.spacezombies.explorer.Sun;
+import cx.it.hyperbadger.spacezombies.gui.GUI;
 
 import static org.lwjgl.opengl.GL11.*;
 @SuppressWarnings("unused")
@@ -33,6 +35,7 @@ public class Game {
 	public static long delta = 160;
 	private ShipControl shipControl = null;
 	private int screenWidth = 1000, screenHeight = 700;
+	private GUI gui = null;
 	public static void main(String[] args){
 		new Game();
 	}
@@ -67,6 +70,8 @@ public class Game {
 		solMass.add(new Planet(20,0,6,1,"Moon","moon.png",sol.findMass("Earth")));
 		ship = new Ship(200,200,100,"spaceship.png");
 		shipControl = new ShipControl(ship);
+		//start gui
+		gui = new ExplorerGUI();
 		//initialize loop
 		Display.update();
 		Display.sync(60);
@@ -82,7 +87,9 @@ public class Game {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
 		//draw
 		sol.move();
-		shipControl.update();
+		if((gui!=null&&!gui.mouseInGUI())||gui==null){
+			shipControl.update();
+		}
 		ship.move(sol.getMasses());
 		//translate
 		double x = ship.getX()-Display.getWidth()/2;
@@ -93,6 +100,11 @@ public class Game {
 		//detrsnalate
 		GL11.glTranslatef((float)x, (float)y, 0);
 		ship.draw();
+		//if gui draw
+		if(gui!=null){
+			gui.draw();
+			gui.poll();
+		}
 		//update
 		Display.update();
 		Display.sync(60);
