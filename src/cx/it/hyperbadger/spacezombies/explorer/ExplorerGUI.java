@@ -92,7 +92,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		}
 		//the rest of the text example
 		Point2D topLeft = new Point2D.Double(20,10);
-		Point2D bottomRight = new Point2D.Double(30,15);
+		Point2D bottomRight = new Point2D.Double(26,15);
 		guiFont.drawString(topLeft, bottomRight, "This is an exmaple text");
 	}
 }

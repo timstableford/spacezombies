@@ -21,7 +21,7 @@ public class GUIFont extends UnicodeFont{
 		while(this.getWidth(out)>(right-left)){
 			out = out.substring(0, out.length()-1);
 		}
-		this.drawString(left, top, text);
+		this.drawString(left, top, out);
 	}
 
 }
