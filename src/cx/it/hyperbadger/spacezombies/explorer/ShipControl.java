@@ -2,7 +2,8 @@ package cx.it.hyperbadger.spacezombies.explorer;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
+
+import cx.it.hyperbadger.spacezombies.Vector2d;
 
 public class ShipControl {
 	private Ship ship = null;
@@ -15,17 +16,17 @@ public class ShipControl {
 		int x = Mouse.getX();
 		int y = Mouse.getY();
 		y = Display.getHeight()-y;
-		Vector2f forceVec = new Vector2f();
-		Vector2f shipVec = new Vector2f();
+		Vector2d forceVec = new Vector2d();
+		Vector2d shipVec = new Vector2d();
 		//shipVec.x = (float) ship.getX();
 		//shipVec.y = (float) ship.getY();
 		shipVec.x = (float) Display.getWidth()/2;
 		shipVec.y = (float) Display.getHeight()/2;
-		Vector2f mouseVec = new Vector2f();
+		Vector2d mouseVec = new Vector2d();
 		mouseVec.x = x;
 		mouseVec.y = y;
-		Vector2f shipMouseVec = new Vector2f();
-		Vector2f.sub(mouseVec, shipVec, shipMouseVec);
+		Vector2d shipMouseVec = new Vector2d();
+		Vector2d.sub(mouseVec, shipVec, shipMouseVec);
 		float shipMouseMag = (float) Math.sqrt(Math.pow(shipMouseVec.x, 2)+Math.pow(shipMouseVec.y, 2));
 		forceVec.x = shipMouseVec.x / shipMouseMag;
 		forceVec.y = shipMouseVec.y / shipMouseMag;
