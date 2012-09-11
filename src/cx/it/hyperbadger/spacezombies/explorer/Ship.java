@@ -89,11 +89,10 @@ public class Ship extends Mass implements Drawable{
 	}
 	private void calculateAngle(){
 		Vector2d velocityUnit = new Vector2d();
-		Vector2d up = new Vector2d(0,1);
 		float velocityMag = (float) Math.sqrt(Math.pow(velocity.x, 2)+Math.pow(velocity.y, 2));
 		if(velocityMag!=0){
 			velocityUnit.set(velocity.x/velocityMag,velocity.y/velocityMag);
-			rotation = (float) Math.toDegrees(Vector2d.angle(up, velocityUnit))-90;
+			rotation = (float)velocityUnit.getDegrees()+180;
 		}
 	}
 	public float getVelocity(){

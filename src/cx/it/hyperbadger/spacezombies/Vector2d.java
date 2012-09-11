@@ -176,13 +176,38 @@ public class Vector2d implements Serializable {
 	 */
 	public static double angle(Vector2d a, Vector2d b) {
 		double dls = dot(a, b) / (a.length() * b.length());
-		if (dls < -1f)
+		if (dls < -1f){
 			dls = -1f;
-		else if (dls > 1.0f)
+		}else if (dls > 1.0f){
 			dls = 1.0f;
+		}
 		return (double)Math.acos(dls);
 	}
+	/**
+	 * Get the angle this vector is at
+	 * 
+	 * @return The angle this vector is at (in degrees)
+	 */
+	public double getDegrees() {
+		double theta = StrictMath.toDegrees(StrictMath.atan2(y, x));
+		if ((theta < -360) || (theta > 360)) {
+			theta = theta % 360;
+		}
+		if (theta < 0) {
+			theta = 360 + theta;
+		}
 
+		return theta;
+	} 
+	/**
+	 * @return the unit vector
+	 */
+	public Vector2d unitVector(){
+		double a = 1/this.length();
+		Vector2d b = new Vector2d(this.getX(),this.getY());
+		b.scale(a);
+		return b;
+	}
 	/**
 	 * Add a vector to another vector and place the result in a destination
 	 * vector.

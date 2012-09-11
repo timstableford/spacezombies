@@ -36,7 +36,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		this.addComponent(b);
 		
 		//waypoints
-		waypoints.add(new Waypoint(solarSystem.findMass("Sun"),textureBuffer.getTexture("waypoint.png")));
+		waypoints.add(new Waypoint(ship, solarSystem.findMass("Sun"),textureBuffer.getTexture("waypoint.png")));
 	}
 	/**
 	 * This is here because it implements listening
