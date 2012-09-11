@@ -6,12 +6,11 @@ import org.lwjgl.input.Mouse;
 
 import cx.it.hyperbadger.spacezombies.explorer.Drawable;
 
-public abstract class GUI implements Drawable{
+public abstract class GUI{
 	protected ArrayList<GUIComponent> guiComponents;
 	public GUI(){
 		guiComponents = new ArrayList<GUIComponent>();
 	}
-	@Override
 	public void draw() {
 		for(GUIComponent g: guiComponents){
 			g.draw();

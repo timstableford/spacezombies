@@ -63,11 +63,10 @@ public class Game {
         //antistropic filtering
         glTexParameteri(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, 8);
 		//load planets
-		ArrayList<Mass> solMass = new ArrayList<Mass>();
-		sol = new SolarSystem("Sole",solMass);
-		solMass.add(new Sun(10000,0,0,"Sun","sun.png",50));
-		solMass.add(new Planet(200,0,20,10,"Earth","earth.png",sol.findMass("Sun")));
-		solMass.add(new Planet(20,0,6,1,"Moon","moon.png",sol.findMass("Earth")));
+		sol = new SolarSystem("Sole");
+		sol.addMass(new Sun(10000,0,0,"Sun","sun.png",50));
+		sol.addMass(new Planet(200,0,20,10,"Earth","earth.png",sol.findMass("Sun")));
+		sol.addMass(new Planet(20,0,6,1,"Moon","moon.png",sol.findMass("Earth")));
 		ship = new Ship(200,200,100,"spaceship.png");
 		shipControl = new ShipControl(ship);
 		//start gui

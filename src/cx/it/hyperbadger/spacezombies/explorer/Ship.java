@@ -6,37 +6,33 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 import cx.it.hyperbadger.spacezombies.Game;
+import cx.it.hyperbadger.spacezombies.TextureName;
 import cx.it.hyperbadger.spacezombies.Vector2d;
 
 public class Ship extends Mass implements Drawable{
-	private Texture texture = null;
+	private TextureName textureName = null;
 	private float rotation = 0;
 	private boolean first = true;
 	private int h,w;
 	private Vector2d velocity = new Vector2d();
-	public Ship(int mass, int x, int y, String texture){
+	public Ship(int mass, int x, int y, String textureName){
 		super(mass,x,y,"Ship");
-		try {
-			this.texture = TextureLoader.getTexture("PNG", ClassLoader.class.getResourceAsStream("/cx/it/hyperbadger/spacezombies/res/"+texture));
-		} catch (IOException e) {
-			System.err.println("Could not load texture: "+texture);
-		}
-		h = this.texture.getImageHeight()/20;
-		w = this.texture.getImageWidth()/20;
+		this.textureName = new TextureName(textureName);
+		this.textureName.loadTexture();
+		h = this.textureName.getTexture().getImageHeight()/20;
+		w = this.textureName.getTexture().getImageWidth()/20;
 		velocity.set(0,0);
 	}
 	@Override
 	public void draw() {
-		texture.bind();
+		textureName.getTexture().bind();
 		calculateAngle();
 		GL11.glTranslatef((float)Display.getWidth()/2+w/2, (float)Display.getHeight()/2+h/2, 0);
 		GL11.glRotatef(rotation, 0f, 0f, 1f);
@@ -103,5 +99,13 @@ public class Ship extends Mass implements Drawable{
 	}
 	public float getVelocity(){
 		return (float) Math.sqrt(Math.pow(velocity.x, 2)+Math.pow(velocity.y, 2));
+	}
+	@Override
+	public void setTexture(TextureName t) {
+		textureName = t;
+	}
+	@Override
+	public TextureName getTexture() {
+		return textureName;
 	}
 }

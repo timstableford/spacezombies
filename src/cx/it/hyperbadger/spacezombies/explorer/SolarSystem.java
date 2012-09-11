@@ -2,12 +2,27 @@ package cx.it.hyperbadger.spacezombies.explorer;
 
 import java.util.ArrayList;
 
-public class SolarSystem implements Drawable, Moveable{
+import cx.it.hyperbadger.spacezombies.TextureBuffer;
+import cx.it.hyperbadger.spacezombies.TextureName;
+
+public class SolarSystem implements Moveable{
 	private ArrayList<Mass> masses;
 	private String name;
-	public SolarSystem(String name, ArrayList<Mass> masses){
+	public SolarSystem(String name){
 		this.name = name;
-		this.masses = masses;
+		masses = new ArrayList<Mass>();
+	}
+	public void addMass(Mass m){
+		masses.add(m);
+		loadTextures();
+	}
+	private void loadTextures(){
+		for(Mass m: masses){
+			if(m instanceof Drawable){
+				Drawable t = (Drawable)m;
+				t.getTexture().loadTexture();
+			}
+		}
 	}
 	public Mass findMass(String n){
 		for(Mass p: masses){

@@ -4,11 +4,13 @@ import java.awt.geom.Point2D;
 
 import org.lwjgl.input.Mouse;
 
+import cx.it.hyperbadger.spacezombies.TextureName;
+
 public class GUIButton extends GUIComponent {
 	private GUIListener listener = null;
 	private boolean eventButtonState = false;
-	public GUIButton(Point2D topLeft, Point2D bottomRight, String texture, String name) {
-		super(topLeft, bottomRight, texture, name);
+	public GUIButton(Point2D topLeft, Point2D bottomRight, TextureName textureName, String name) {
+		super(topLeft, bottomRight, textureName, name);
 	}
 	public void setListener(GUIListener e){
 		listener = e;

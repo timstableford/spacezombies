@@ -13,28 +13,22 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
+import cx.it.hyperbadger.spacezombies.TextureName;
 import cx.it.hyperbadger.spacezombies.explorer.Drawable;
 
 public abstract class GUIComponent implements Drawable{
 	private Point2D topLeft = null, bottomRight = null;
 	protected int top,bottom,left,right;
 	protected String name = null;
-	private Texture texture = null;
-	public GUIComponent(Point2D topLeft, Point2D bottomRight, String texture, String name){
+	protected TextureName textureName = null;
+	public GUIComponent(Point2D topLeft, Point2D bottomRight, TextureName textureName, String name){
 		this.topLeft = topLeft;
 		this.bottomRight = bottomRight;
 		this.name = name;
+		this.textureName = textureName;
 		//calculate real location
 		calculateLocation();
 		//load texture
-		try {
-			this.texture = TextureLoader.getTexture("PNG", ClassLoader.class.getResourceAsStream("/cx/it/hyperbadger/spacezombies/res/"+texture));
-		} catch (IOException e) {
-			System.err.println("Could not load texture: "+texture);
-		}
-	}
-	public void setTexture(Texture texture){
-		this.texture = texture;
 	}
 	public String getName(){
 		return name;
@@ -53,17 +47,19 @@ public abstract class GUIComponent implements Drawable{
 		right = (int) ((bottomRight.getX()*dW)/100);
 	}
 	public void draw(){
-		texture.bind();
-		glBegin(GL_QUADS);
-		glTexCoord2f(0,0);
-    	glVertex2f(left,top); //topleft
-    	glTexCoord2f(1,0);
-    	glVertex2f(right,top); //top right
-    	glTexCoord2f(1,1);
-    	glVertex2f(right,bottom); //bottom right
-    	glTexCoord2f(0,1);
-    	glVertex2f(left,bottom); //bottom left
-    	glEnd();
+		if(textureName.getTexture()!=null){
+			textureName.getTexture().bind();
+			glBegin(GL_QUADS);
+			glTexCoord2f(0,0);
+			glVertex2f(left,top); //topleft
+			glTexCoord2f(1,0);
+			glVertex2f(right,top); //top right
+			glTexCoord2f(1,1);
+			glVertex2f(right,bottom); //bottom right
+			glTexCoord2f(0,1);
+			glVertex2f(left,bottom); //bottom left
+			glEnd();
+		}
 	}
 	public boolean cursorHere(int mouseX, int mouseY){
 		mouseY = Display.getHeight()-mouseY;
@@ -71,5 +67,11 @@ public abstract class GUIComponent implements Drawable{
 			return true;
 		}
 		return false;
+	}
+	public void setTexture(TextureName t){
+		this.textureName = t;
+	}
+	public TextureName getTexture(){
+		return textureName;
 	}
 }
