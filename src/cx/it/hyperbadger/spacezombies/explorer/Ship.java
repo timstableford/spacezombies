@@ -20,7 +20,10 @@ public class Ship extends Mass implements Drawable{
 	private float rotation = 0;
 	private boolean first = true;
 	private int h,w;
+	private long force = 10000;
 	private Vector2d velocity = new Vector2d();
+	private boolean auto = false;
+	private long autoVelocity = 50;
 	public Ship(int mass, int x, int y, String textureName){
 		super(mass,x,y,"Ship");
 		this.textureName = new TextureName(textureName);
@@ -65,6 +68,14 @@ public class Ship extends Mass implements Drawable{
 			this.applyForce(planetForce);
 		}
 		first = false;
+		if(auto){
+			Vector2d a = new Vector2d(0,0);
+			double speed = velocity.length();
+			double over = Math.pow(autoVelocity - speed, 2);
+			a = velocity.unitVector();
+			a.scale(over);
+			applyForce(a);
+		}
 		this.x = this.x + velocity.x*Game.delta/1000;
 		this.y = this.y + velocity.y*Game.delta/1000;
 	}
@@ -95,8 +106,8 @@ public class Ship extends Mass implements Drawable{
 			rotation = (float)velocityUnit.getDegrees()+180;
 		}
 	}
-	public float getVelocity(){
-		return (float) Math.sqrt(Math.pow(velocity.x, 2)+Math.pow(velocity.y, 2));
+	public double getVelocity(){
+		return velocity.length();
 	}
 	@Override
 	public void setTexture(TextureName t) {
@@ -105,5 +116,23 @@ public class Ship extends Mass implements Drawable{
 	@Override
 	public TextureName getTexture() {
 		return textureName;
+	}
+	public long getForce() {
+		return force;
+	}
+	public void setForce(long force) {
+		this.force = force;
+	}
+	public boolean isAuto() {
+		return auto;
+	}
+	public void setAuto(boolean auto) {
+		this.auto = auto;
+	}
+	public long getAutoVelocity() {
+		return autoVelocity;
+	}
+	public void setAutoVelocity(long autoVelocity) {
+		this.autoVelocity = autoVelocity;
 	}
 }

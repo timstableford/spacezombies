@@ -7,7 +7,6 @@ import cx.it.hyperbadger.spacezombies.Vector2d;
 
 public class ShipControl {
 	private Ship ship = null;
-	private int force = 10000;
 	public ShipControl(Ship ship){
 		this.ship = ship;
 	}
@@ -31,8 +30,8 @@ public class ShipControl {
 		forceVec.x = shipMouseVec.x / shipMouseMag;
 		forceVec.y = shipMouseVec.y / shipMouseMag;
 		if(leftButtonDown){
-			forceVec.x = force*forceVec.x;
-			forceVec.y = force*forceVec.y;
+			forceVec.x = ship.getForce()*forceVec.x;
+			forceVec.y = ship.getForce()*forceVec.y;
 			ship.applyForce(forceVec);
 		}
 

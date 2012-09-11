@@ -20,6 +20,12 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		this.ship = ship;
 		this.solarSystem = solarSystem;
 		waypoints = new ArrayList<Waypoint>();
+		//some useful data
+		double shipVelocity = ship.getVelocity();
+		long shipForce = ship.getForce();
+		// ship.setForce(10000);
+		// ship.setAuto(true/false);
+		// ship.setAutoVelocity(autoVelocity);
 		//create a texture buffer and add textures
 		ArrayList<TextureName> textures = new ArrayList<TextureName>();
 		textures.add(new TextureName("spaceship.png"));
