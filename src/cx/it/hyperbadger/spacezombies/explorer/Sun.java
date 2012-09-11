@@ -23,13 +23,13 @@ public class Sun extends Mass implements Drawable{
 			textureName.getTexture().bind();
 			glBegin(GL_QUADS);
 			glTexCoord2f(0,0);
-			glVertex2f((float)(x-planetRadius),(float)(y-planetRadius)); //topleft
+			glVertex2f((float)(x*scale-planetRadius*scale),(float)(y*scale-planetRadius*scale)); //topleft
 			glTexCoord2f(1,0);
-			glVertex2f((float)(x+planetRadius),(float)(y-planetRadius)); //top right
+			glVertex2f((float)(x*scale+planetRadius*scale),(float)(y*scale-planetRadius*scale)); //top right
 			glTexCoord2f(1,1);
-			glVertex2f((float)(x+planetRadius),(float)(y+planetRadius)); //bottom right
+			glVertex2f((float)(x*scale+planetRadius*scale),(float)(y*scale+planetRadius*scale)); //bottom right
 			glTexCoord2f(0,1);
-			glVertex2f((float)(x-planetRadius),(float)(y+planetRadius)); //bottom left
+			glVertex2f((float)(x*scale-planetRadius*scale),(float)(y*scale+planetRadius*scale)); //bottom left
 			glEnd();
 		}
 	}

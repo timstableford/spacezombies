@@ -8,6 +8,7 @@ public class Mass {
 	protected String name = "";
 	protected double mass = 0;
 	protected double x = 0, y = 0;
+	protected double scale = 1;
 	public Mass(double mass, double x, double y, String name){
 		this.mass = mass;
 		this.x = x;
@@ -46,6 +47,9 @@ public class Mass {
 	}
 	public double getX(){
 		return x;
+	}
+	public void setScale(double scale){
+		this.scale = scale;
 	}
 	public double getY(){
 		return y;

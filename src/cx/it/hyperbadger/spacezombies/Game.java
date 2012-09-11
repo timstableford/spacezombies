@@ -91,10 +91,13 @@ public class Game {
 		}
 		ship.move(sol.getMasses());
 		//translate
-		double x = ship.getX()-Display.getWidth()/2;
-		double y = ship.getY()-Display.getHeight()/2;
+		double x = ship.getX()*gui.getScale()-Display.getWidth()/2;
+		double y = ship.getY()*gui.getScale()-Display.getHeight()/2;
 		GL11.glTranslatef(-(float)x, -(float)y, 0);
 		//draw
+		//set ALL the scales
+		sol.setScale(gui.getScale());
+		ship.setScale(gui.getScale());
 		sol.draw();
 		//detrsnalate
 		GL11.glTranslatef((float)x, (float)y, 0);

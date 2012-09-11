@@ -69,11 +69,13 @@ public class ExplorerGUI extends GUI implements GUIListener{
 	    } catch (SlickException ex) {
 	       // Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
 	    }
-
 		//the rest goes in the draw loop
 		
 		//waypoints
 		waypoints.add(new Waypoint(ship, solarSystem.findMass("Sun"),textureBuffer.getTexture("waypoint.png")));
+		
+		//setting the game scale
+		this.setScale(1);
 	}
 	/**
 	 * This is here because it implements listening
@@ -92,7 +94,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		}
 		//the rest of the text example
 		Point2D topLeft = new Point2D.Double(20,10);
-		Point2D bottomRight = new Point2D.Double(26,15);
-		guiFont.drawString(topLeft, bottomRight, "This is an exmaple text");
+		Point2D bottomRight = new Point2D.Double(45,15);
+		guiFont.drawString(topLeft, bottomRight, "This is an example text");
 	}
 }

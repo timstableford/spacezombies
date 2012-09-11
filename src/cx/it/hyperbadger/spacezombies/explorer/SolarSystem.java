@@ -52,4 +52,9 @@ public class SolarSystem implements Moveable{
 	public String getName(){
 		return name;
 	}
+	public void setScale(double scale){
+		for(Mass m: masses){
+			m.setScale(scale);
+		}
+	}
 }

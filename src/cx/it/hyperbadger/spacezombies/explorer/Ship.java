@@ -36,22 +36,22 @@ public class Ship extends Mass implements Drawable{
 	public void draw() {
 		textureName.getTexture().bind();
 		calculateAngle();
-		GL11.glTranslatef((float)Display.getWidth()/2+w/2, (float)Display.getHeight()/2+h/2, 0);
+		GL11.glTranslatef((float)Display.getWidth()/2, (float)Display.getHeight()/2, 0);
 		GL11.glRotatef(rotation, 0f, 0f, 1f);
-		GL11.glTranslatef(-(float)Display.getWidth()/2-w/2, -(float)Display.getHeight()/2-h/2, 0);
+		GL11.glTranslatef(-(float)Display.getWidth()/2, -(float)Display.getHeight()/2, 0);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
-    	glVertex2f((int)Display.getWidth()/2-w,(int)Display.getHeight()/2-h); //topleft
+    	glVertex2f((int)(Display.getWidth()/2-w*scale),(int)(Display.getHeight()/2-h*scale)); //topleft
     	glTexCoord2f(1,0);
-    	glVertex2f((int)Display.getWidth()/2+w,(int)Display.getHeight()/2-h); //top right
+    	glVertex2f((int)(Display.getWidth()/2+w*scale),(int)(Display.getHeight()/2-h*scale)); //top right
     	glTexCoord2f(1,1);
-    	glVertex2f((int)Display.getWidth()/2+w,(int)Display.getHeight()/2+h); //bottom right
+    	glVertex2f((int)(Display.getWidth()/2+w*scale),(int)(Display.getHeight()/2+h*scale)); //bottom right
     	glTexCoord2f(0,1);
-    	glVertex2f((int)Display.getWidth()/2-w,(int)Display.getHeight()/2+h); //bottom left
+    	glVertex2f((int)(Display.getWidth()/2-w*scale),(int)(Display.getHeight()/2+h*scale)); //bottom left
     	glEnd();
-    	GL11.glTranslatef((float)Display.getWidth()/2+w/2, (float)Display.getHeight()/2+h/2, 0);
+    	GL11.glTranslatef((float)Display.getWidth()/2, (float)Display.getHeight()/2, 0);
 		GL11.glRotatef(-rotation, 0f, 0f, 1f);
-		GL11.glTranslatef(-(float)Display.getWidth()/2-w/2, -(float)Display.getHeight()/2-h/2, 0);
+		GL11.glTranslatef(-(float)Display.getWidth()/2, -(float)Display.getHeight()/2, 0);
 	}
 	public void applyForce(Vector2d force){
 		velocity.x = velocity.x + (force.x*Game.delta/1000)/this.mass;
