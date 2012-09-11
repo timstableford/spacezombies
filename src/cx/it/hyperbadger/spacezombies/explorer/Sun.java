@@ -13,8 +13,8 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 public class Sun extends Mass implements Drawable{
 	private Texture texture = null;
-	private int planetRadius = 0;
-	public Sun(int mass, double x, double y, String name, String texture, int planetRadius) {
+	private double planetRadius = 0;
+	public Sun(double mass, double x, double y, String name, String texture, double planetRadius) {
 		super(mass, x, y, name);
 		this.planetRadius = planetRadius;
 		//load texture
@@ -29,13 +29,13 @@ public class Sun extends Mass implements Drawable{
 		texture.bind();
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
-    	glVertex2f((int)x-planetRadius,(int)y-planetRadius); //topleft
-    	glTexCoord2f(1,0);
-    	glVertex2f((int)x+planetRadius,(int)y-planetRadius); //top right
-    	glTexCoord2f(1,1);
-    	glVertex2f((int)x+planetRadius,(int)y+planetRadius); //bottom right
-    	glTexCoord2f(0,1);
-    	glVertex2f((int)x-planetRadius,(int)y+planetRadius); //bottom left
+		glVertex2f((float)(x-planetRadius),(float)(y-planetRadius)); //topleft
+		glTexCoord2f(1,0);
+		glVertex2f((float)(x+planetRadius),(float)(y-planetRadius)); //top right
+		glTexCoord2f(1,1);
+		glVertex2f((float)(x+planetRadius),(float)(y+planetRadius)); //bottom right
+		glTexCoord2f(0,1);
+    	glVertex2f((float)(x-planetRadius),(float)(y+planetRadius)); //bottom left
     	glEnd();
 	}
 

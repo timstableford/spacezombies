@@ -10,15 +10,15 @@ import cx.it.hyperbadger.spacezombies.Game;
 
 import static org.lwjgl.opengl.GL11.*;
 public class Planet extends Mass implements Drawable, Moveable{
-	private int planetRadius;
+	private double planetRadius;
 	private Texture texture;
 	private Mass parentMass = null;
 	private ArrayList<Planet> planets;
 	private double initialVelocity = 0;
 	private double angle = 0;
-	private float orbitRadius = 0;
-	public Planet(float orbitRadius, double initialAngle, int planetRadius, int mass, String name, String texture, Mass parent){
-		super(mass,(float) (orbitRadius*Math.sin(initialAngle)+parent.getX()),(float) (orbitRadius*Math.cos(initialAngle)+parent.getY()),name);
+	private double orbitRadius = 0;
+	public Planet(double orbitRadius, double initialAngle, double planetRadius, double mass, String name, String texture, Mass parent){
+		super(mass,(double) (orbitRadius*Math.sin(initialAngle)+parent.getX()),(double) (orbitRadius*Math.cos(initialAngle)+parent.getY()),name);
 		angle = initialAngle;
 		this.planetRadius = planetRadius;
 		this.planets = new ArrayList<Planet>();
@@ -45,20 +45,20 @@ public class Planet extends Mass implements Drawable, Moveable{
 		if(angle>Math.PI*2){
 			angle = 0;
 		}
-		this.x = (float) (orbitRadius*Math.sin(angle)+parentMass.getX());
-		this.y = (float) (orbitRadius*Math.cos(angle)+parentMass.getY());
+		this.x = (double) (orbitRadius*Math.sin(angle)+parentMass.getX());
+		this.y = (double) (orbitRadius*Math.cos(angle)+parentMass.getY());
 	}
 	public void draw(){
 		texture.bind();
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
-		glVertex2f((int)x-planetRadius,(int)y-planetRadius); //topleft
+		glVertex2f((float)(x-planetRadius),(float)(y-planetRadius)); //topleft
 		glTexCoord2f(1,0);
-		glVertex2f((int)x+planetRadius,(int)y-planetRadius); //top right
+		glVertex2f((float)(x+planetRadius),(float)(y-planetRadius)); //top right
 		glTexCoord2f(1,1);
-		glVertex2f((int)x+planetRadius,(int)y+planetRadius); //bottom right
+		glVertex2f((float)(x+planetRadius),(float)(y+planetRadius)); //bottom right
 		glTexCoord2f(0,1);
-    	glVertex2f((int)x-planetRadius,(int)y+planetRadius); //bottom left
+    	glVertex2f((float)(x-planetRadius),(float)(y+planetRadius)); //bottom left
     	glEnd();
 	}
 }

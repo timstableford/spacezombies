@@ -6,9 +6,9 @@ import cx.it.hyperbadger.spacezombies.Game;
 
 public class Mass {
 	protected String name = "";
-	protected int mass = 0;
+	protected double mass = 0;
 	protected double x = 0, y = 0;
-	public Mass(int mass, double x, double y, String name){
+	public Mass(double mass, double x, double y, String name){
 		this.mass = mass;
 		this.x = x;
 		this.y = y;
@@ -32,7 +32,7 @@ public class Mass {
 	public String getName(){
 		return name;
 	}
-	public int getMass(){
+	public double getMass(){
 		return mass;
 	}
 	public Point2D getMe(){
