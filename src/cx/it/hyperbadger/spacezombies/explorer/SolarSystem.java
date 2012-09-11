@@ -2,8 +2,6 @@ package cx.it.hyperbadger.spacezombies.explorer;
 
 import java.util.ArrayList;
 
-import cx.it.hyperbadger.spacezombies.TextureBuffer;
-import cx.it.hyperbadger.spacezombies.TextureName;
 
 public class SolarSystem implements Moveable{
 	private ArrayList<Mass> masses;

@@ -1,10 +1,6 @@
 package cx.it.hyperbadger.spacezombies.explorer;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 import cx.it.hyperbadger.spacezombies.Game;
 import cx.it.hyperbadger.spacezombies.TextureName;

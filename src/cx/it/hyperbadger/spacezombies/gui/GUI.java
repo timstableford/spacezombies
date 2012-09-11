@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
 
-import cx.it.hyperbadger.spacezombies.explorer.Drawable;
-
 public abstract class GUI{
 	protected ArrayList<GUIComponent> guiComponents;
 	public GUI(){

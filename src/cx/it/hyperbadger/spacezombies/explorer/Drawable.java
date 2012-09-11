@@ -1,7 +1,5 @@
 package cx.it.hyperbadger.spacezombies.explorer;
 
-import org.newdawn.slick.opengl.Texture;
-
 import cx.it.hyperbadger.spacezombies.TextureName;
 
 public interface Drawable {
