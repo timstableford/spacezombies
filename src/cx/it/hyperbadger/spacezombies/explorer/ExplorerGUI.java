@@ -13,11 +13,18 @@ import cx.it.hyperbadger.spacezombies.gui.GUIListener;
 
 public class ExplorerGUI extends GUI implements GUIListener{
 	private TextureBuffer textureBuffer = null;
-	public ExplorerGUI(){
+	private Ship ship = null;
+	private SolarSystem solarSystem = null;
+	private ArrayList<Waypoint> waypoints = null;
+	public ExplorerGUI(Ship ship, SolarSystem solarSystem){
+		this.ship = ship;
+		this.solarSystem = solarSystem;
+		waypoints = new ArrayList<Waypoint>();
 		//create a texture buffer and add textures
 		ArrayList<TextureName> textures = new ArrayList<TextureName>();
 		textures.add(new TextureName("spaceship.png"));
-		
+		textures.add(new TextureName("waypoint.png"));
+
 		textureBuffer = new TextureBuffer(textures);
 		//initialize some components here and add them to an array
 		
@@ -28,6 +35,8 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		//add the component to the draw loop
 		this.addComponent(b);
 		
+		//waypoints
+		waypoints.add(new Waypoint(solarSystem.findMass("Sun"),textureBuffer.getTexture("waypoint.png")));
 	}
 	/**
 	 * This is here because it implements listening
@@ -35,5 +44,14 @@ public class ExplorerGUI extends GUI implements GUIListener{
 	@Override
 	public void actionOccured(GUIEvent event, GUIComponent source) {
 		System.out.println(source.getName()+" - "+event);
+	}
+	@Override
+	public void draw() {
+		for(GUIComponent g: guiComponents){
+			g.draw();
+		}
+		for(Waypoint w: waypoints){
+			w.draw();
+		}
 	}
 }

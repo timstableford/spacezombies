@@ -70,7 +70,7 @@ public class Game {
 		ship = new Ship(200,200,100,"spaceship.png");
 		shipControl = new ShipControl(ship);
 		//start gui
-		gui = new ExplorerGUI();
+		gui = new ExplorerGUI(ship, sol);
 		//initialize loop
 		Display.update();
 		Display.sync(60);
