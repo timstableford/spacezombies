@@ -10,5 +10,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="src/cx/it/hyperbadger/spacezombies/jar/slick.jar"/>
+	<classpathentry kind="lib" path="src/cx/it/hyperbadger/spacezombies/jar/slick-util.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,7 +1,12 @@
 package cx.it.hyperbadger.spacezombies.explorer;
 
+import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import org.newdawn.slick.Color;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.font.effects.ColorEffect;
 
 import cx.it.hyperbadger.spacezombies.TextureBuffer;
 import cx.it.hyperbadger.spacezombies.TextureName;
@@ -9,6 +14,7 @@ import cx.it.hyperbadger.spacezombies.gui.GUI;
 import cx.it.hyperbadger.spacezombies.gui.GUIButton;
 import cx.it.hyperbadger.spacezombies.gui.GUIComponent;
 import cx.it.hyperbadger.spacezombies.gui.GUIEvent;
+import cx.it.hyperbadger.spacezombies.gui.GUIFont;
 import cx.it.hyperbadger.spacezombies.gui.GUIListener;
 
 public class ExplorerGUI extends GUI implements GUIListener{
@@ -16,6 +22,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 	private Ship ship = null;
 	private SolarSystem solarSystem = null;
 	private ArrayList<Waypoint> waypoints = null;
+	private GUIFont guiFont = null;
 	public ExplorerGUI(Ship ship, SolarSystem solarSystem){
 		this.ship = ship;
 		this.solarSystem = solarSystem;
@@ -41,6 +48,30 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		//add the component to the draw loop
 		this.addComponent(b);
 		
+		//text example
+		/*
+		// load font from a .ttf file
+		try {
+			InputStream inputStream	= ResourceLoader.getResourceAsStream("myfont.ttf");
+
+			Font awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+			awtFont = awtFont.deriveFont(24f); // set font size
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		 */
+		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
+		guiFont = new GUIFont(awtFont);
+		guiFont.getEffects().add(new ColorEffect(java.awt.Color.white));
+	    guiFont.addAsciiGlyphs();
+	    try {
+	        guiFont.loadGlyphs();
+	    } catch (SlickException ex) {
+	       // Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+
+		//the rest goes in the draw loop
+		
 		//waypoints
 		waypoints.add(new Waypoint(ship, solarSystem.findMass("Sun"),textureBuffer.getTexture("waypoint.png")));
 	}
@@ -59,5 +90,9 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		for(Waypoint w: waypoints){
 			w.draw();
 		}
+		//the rest of the text example
+		Point2D topLeft = new Point2D.Double(20,10);
+		Point2D bottomRight = new Point2D.Double(30,15);
+		guiFont.drawString(topLeft, bottomRight, "This is an exmaple text");
 	}
 }
