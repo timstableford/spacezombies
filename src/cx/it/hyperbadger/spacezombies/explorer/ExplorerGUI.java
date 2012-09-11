@@ -29,7 +29,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		waypoints = new ArrayList<Waypoint>();
 		//some useful data
 		double shipVelocity = ship.getVelocity();
-		long shipForce = ship.getForce();
+		double shipForce = ship.getForce();
 		// ship.setForce(10000);
 		// ship.setAuto(true/false);
 		// ship.setAutoVelocity(autoVelocity);
@@ -75,7 +75,8 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		waypoints.add(new Waypoint(ship, solarSystem.findMass("Sun"),textureBuffer.getTexture("waypoint.png")));
 		
 		//setting the game scale
-		this.setScale(1);
+		this.setScale(0.0001);
+		//this.setScale(0.1);
 	}
 	/**
 	 * This is here because it implements listening

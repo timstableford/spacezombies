@@ -28,7 +28,8 @@ import static org.lwjgl.opengl.GL11.*;
 public class Game {
 	private int fps, lastFPS;
 	private Planet planetEarth, theSun, theMoon;
-	public static final double G = 100;
+	public static final double G = 6.673*Math.pow(10,-11);
+	public static final double C = 299792458;
 	private static long time, lastFrame;
 	private SolarSystem sol = null;
 	private Ship ship = null;
@@ -64,10 +65,10 @@ public class Game {
         glTexParameteri(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, 8);
 		//load planets
 		sol = new SolarSystem("Sole");
-		sol.addMass(new Sun(10000,0,0,"Sun","sun.png",50));
-		sol.addMass(new Planet(200,0,20,10,"Earth","earth.png",sol.findMass("Sun")));
-		sol.addMass(new Planet(20,0,6,1,"Moon","moon.png",sol.findMass("Earth")));
-		ship = new Ship(200,200,100,"spaceship.png");
+		sol.addMass(new Sun(1.9891*Math.pow(10, 30),0,0,"Sun","sun.png",695500000));
+		sol.addMass(new Planet(149597887500.0,0,6378100,5.97219*Math.pow(10, 24),"Earth","earth.png",sol.findMass("Sun")));
+		sol.addMass(new Planet(385000000,0,1737100,7.34767309*Math.pow(10, 22),"Moon","moon.png",sol.findMass("Earth")));
+		ship = new Ship(10000,2.512*Math.pow(10, 10),1.4747*Math.pow(10,11),"spaceship.png");
 		shipControl = new ShipControl(ship);
 		//start gui
 		gui = new ExplorerGUI(ship, sol);
@@ -110,7 +111,7 @@ public class Game {
 		//update
 		Display.update();
 		Display.sync(60);
-		Display.setTitle("Space Zombies - "+ship.getVelocity()+"m/s");
+		Display.setTitle("Space Zombies - "+ship.getVelocity()/1000+"km/s");
 		Game.delta = getDelta();
 	}
 	public int getDelta() {

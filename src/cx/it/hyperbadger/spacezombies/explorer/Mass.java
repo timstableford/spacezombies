@@ -6,10 +6,12 @@ import cx.it.hyperbadger.spacezombies.Game;
 
 public class Mass {
 	protected String name = "";
+	protected double originalMass = 0;
 	protected double mass = 0;
 	protected double x = 0, y = 0;
 	protected double scale = 1;
 	public Mass(double mass, double x, double y, String name){
+		this.originalMass = mass;
 		this.mass = mass;
 		this.x = x;
 		this.y = y;

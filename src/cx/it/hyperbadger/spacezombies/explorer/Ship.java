@@ -20,11 +20,11 @@ public class Ship extends Mass implements Drawable{
 	private float rotation = 0;
 	private boolean first = true;
 	private int h,w;
-	private long force = 10000;
+	private double force = 1000000000.0;
 	private Vector2d velocity = new Vector2d();
 	private boolean auto = false;
 	private long autoVelocity = 50;
-	public Ship(int mass, int x, int y, String textureName){
+	public Ship(int mass, double x, double y, String textureName){
 		super(mass,x,y,"Ship");
 		this.textureName = new TextureName(textureName);
 		this.textureName.loadTexture();
@@ -36,6 +36,9 @@ public class Ship extends Mass implements Drawable{
 	public void draw() {
 		textureName.getTexture().bind();
 		calculateAngle();
+		if(this.scale<0.6){
+			this.scale = 0.6;
+		}
 		GL11.glTranslatef((float)Display.getWidth()/2, (float)Display.getHeight()/2, 0);
 		GL11.glRotatef(rotation, 0f, 0f, 1f);
 		GL11.glTranslatef(-(float)Display.getWidth()/2, -(float)Display.getHeight()/2, 0);
@@ -54,8 +57,10 @@ public class Ship extends Mass implements Drawable{
 		GL11.glTranslatef(-(float)Display.getWidth()/2, -(float)Display.getHeight()/2, 0);
 	}
 	public void applyForce(Vector2d force){
+		calculateRelativity();
 		velocity.x = velocity.x + (force.x*Game.delta/1000)/this.mass;
 		velocity.y = velocity.y + (force.y*Game.delta/1000)/this.mass;
+		calculateRelativity();
 	}
 
 	public void move(ArrayList<Mass> attracts){
@@ -76,8 +81,17 @@ public class Ship extends Mass implements Drawable{
 			a.scale(over);
 			applyForce(a);
 		}
+		//
+		if(velocity.length()>(2.997*Math.pow(10,8))){
+			velocity = velocity.unitVector();
+			velocity = velocity.scale(2.997*Math.pow(10,8));
+		}
 		this.x = this.x + velocity.x*Game.delta/1000;
 		this.y = this.y + velocity.y*Game.delta/1000;
+	}
+	private void calculateRelativity(){
+		//calculate relativity
+		mass = originalMass/Math.sqrt(1-Math.pow(velocity.length()/Game.C,2));
 	}
 	private Vector2d getVectorForce(Mass from, Mass to){
 		//from ship
@@ -117,7 +131,7 @@ public class Ship extends Mass implements Drawable{
 	public TextureName getTexture() {
 		return textureName;
 	}
-	public long getForce() {
+	public double getForce() {
 		return force;
 	}
 	public void setForce(long force) {

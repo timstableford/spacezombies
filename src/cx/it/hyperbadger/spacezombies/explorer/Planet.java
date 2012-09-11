@@ -34,7 +34,8 @@ public class Planet extends Mass implements Drawable, Moveable{
 		planets.add(child);
 	}
 	public void move(){
-		angle = angle + Math.pow(initialVelocity,0.1)/220;
+		//angle = angle + Math.pow(initialVelocity,0.1)/220;
+		angle = angle + (initialVelocity/orbitRadius)*(Game.delta/1000);
 		if(angle>Math.PI*2){
 			angle = 0;
 		}
