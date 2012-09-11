@@ -28,6 +28,7 @@ public class TextureName {
 			} catch (IOException e) {
 				System.err.println("Could not load texture: "+getName());
 			}
+			System.out.println("Texture loaded: "+name);
 		}
 	}
 }
