@@ -1,12 +1,11 @@
 package cx.it.hyperbadger.spacezombies.gui;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
 
 public abstract class GUI{
-	protected BigDecimal scale = new BigDecimal(1);
+	protected double scale = 1;
 	protected ArrayList<GUIComponent> guiComponents;
 	public GUI(){
 		guiComponents = new ArrayList<GUIComponent>();
@@ -39,10 +38,10 @@ public abstract class GUI{
 		}
 		return false;
 	}
-	public void setScale(BigDecimal scale){
+	public void setScale(double scale){
 		this.scale = scale;
 	}
-	public BigDecimal getScale(){
+	public double getScale(){
 		return this.scale;
 	}
 }

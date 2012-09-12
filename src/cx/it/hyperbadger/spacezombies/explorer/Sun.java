@@ -6,14 +6,12 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
-import java.math.BigDecimal;
-
 import cx.it.hyperbadger.spacezombies.TextureName;
 
 public class Sun extends Mass implements Drawable{
-	private BigDecimal planetRadius;
+	private double planetRadius = 0;
 	private TextureName textureName = null;
-	public Sun(BigDecimal mass, BigDecimal x, BigDecimal y, String name, String textureName, BigDecimal planetRadius) {
+	public Sun(double mass, double x, double y, String name, String textureName, double planetRadius) {
 		super(mass, x, y, name);
 		this.planetRadius = planetRadius;
 		//load texture
@@ -25,20 +23,13 @@ public class Sun extends Mass implements Drawable{
 			textureName.getTexture().bind();
 			glBegin(GL_QUADS);
 			glTexCoord2f(0,0);
-			glVertex2f((x.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue()),
-					(y.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue())); //topleft
-			
+			glVertex2f((float)(x*scale-planetRadius*scale),(float)(y*scale-planetRadius*scale)); //topleft
 			glTexCoord2f(1,0);
-			glVertex2f((x.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue()),
-					(y.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue())); //top right
-			
+			glVertex2f((float)(x*scale+planetRadius*scale),(float)(y*scale-planetRadius*scale)); //top right
 			glTexCoord2f(1,1);
-			glVertex2f((x.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue()),
-					(y.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue())); //bottom right
-			
+			glVertex2f((float)(x*scale+planetRadius*scale),(float)(y*scale+planetRadius*scale)); //bottom right
 			glTexCoord2f(0,1);
-			glVertex2f((x.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue()),
-					(y.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue())); //bottom left
+			glVertex2f((float)(x*scale-planetRadius*scale),(float)(y*scale+planetRadius*scale)); //bottom left
 			glEnd();
 		}
 	}

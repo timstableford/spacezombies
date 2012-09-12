@@ -28,8 +28,8 @@ import static org.lwjgl.opengl.GL11.*;
 public class Game {
 	private int fps, lastFPS;
 	private Planet planetEarth, theSun, theMoon;
-	public static final BigDecimal G = new BigDecimal(6.673*Math.pow(10,-11));
-	public static final BigDecimal C = new BigDecimal("299792458");//299792458;
+	public static final double G = 6.673*Math.pow(10,-11);
+	public static final double C = 299792458;
 	private static long time, lastFrame;
 	private SolarSystem sol = null;
 	private Ship ship = null;
@@ -65,27 +65,10 @@ public class Game {
         glTexParameteri(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, 8);
 		//load planets
 		sol = new SolarSystem("Sole");
-		sol.addMass(new Sun(new BigDecimal(1.9891*Math.pow(10, 30)),
-				new BigDecimal(0),new BigDecimal(0),"Sun","sun.png",
-				new BigDecimal(695500000)));
-		
-		sol.addMass(new Planet(new BigDecimal(149597887500.0)
-				,new BigDecimal(0),
-				new BigDecimal(6378100),
-				new BigDecimal(5.97219*Math.pow(10, 24)),
-				"Earth","earth.png",sol.findMass("Sun")));
-		
-		sol.addMass(new Planet(new BigDecimal(385000000),
-				new BigDecimal(0),
-				new BigDecimal(1737100),
-				new BigDecimal(7.34767309*Math.pow(10, 22)),
-				"Moon","moon.png",sol.findMass("Earth")));
-		
-		ship = new Ship(new BigDecimal(10000),
-				new BigDecimal(2.512*Math.pow(10, 10)),
-				new BigDecimal(1.4747*Math.pow(10,11)),
-				"spaceship.png");
-		
+		sol.addMass(new Sun(1.9891*Math.pow(10, 30),0,0,"Sun","sun.png",695500000));
+		sol.addMass(new Planet(149597887500.0,0,6378100,5.97219*Math.pow(10, 24),"Earth","earth.png",sol.findMass("Sun")));
+		sol.addMass(new Planet(385000000,0,1737100,7.34767309*Math.pow(10, 22),"Moon","moon.png",sol.findMass("Earth")));
+		ship = new Ship(10000,2.512*Math.pow(10, 10),1.4747*Math.pow(10,11),"spaceship.png");
 		shipControl = new ShipControl(ship);
 		//start gui
 		gui = new ExplorerGUI(ship, sol);
@@ -109,8 +92,8 @@ public class Game {
 		}
 		ship.move(sol.getMasses());
 		//translate
-		float x = ship.getX().multiply(gui.getScale()).floatValue()-Display.getWidth()/2;
-		float y = ship.getY().multiply(gui.getScale()).floatValue()-Display.getHeight()/2;
+		double x = ship.getX()*gui.getScale()-Display.getWidth()/2;
+		double y = ship.getY()*gui.getScale()-Display.getHeight()/2;
 		GL11.glTranslatef(-(float)x, -(float)y, 0);
 		//draw
 		//set ALL the scales
@@ -128,7 +111,7 @@ public class Game {
 		//update
 		Display.update();
 		Display.sync(60);
-		Display.setTitle("Space Zombies - "+ship.getVelocity().intValue()/1000+"km/s");
+		Display.setTitle("Space Zombies - "+ship.getVelocity()/1000+"km/s");
 		Game.delta = getDelta();
 	}
 	public int getDelta() {
@@ -139,10 +122,5 @@ public class Game {
 	}
 	public long getTime() {
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
-	}
-	public static BigDecimal bigDelta(){
-		BigDecimal a = new BigDecimal(Game.delta);
-		BigDecimal b = new BigDecimal("1000");
-		return a.divide(b);
 	}
 }
