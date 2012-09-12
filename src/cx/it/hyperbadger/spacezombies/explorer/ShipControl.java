@@ -1,9 +1,11 @@
 package cx.it.hyperbadger.spacezombies.explorer;
 
+import java.math.BigDecimal;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import cx.it.hyperbadger.spacezombies.Vector2d;
+import cx.it.hyperbadger.spacezombies.Vector2BD;
 
 public class ShipControl {
 	private Ship ship = null;
@@ -15,23 +17,20 @@ public class ShipControl {
 		int x = Mouse.getX();
 		int y = Mouse.getY();
 		y = Display.getHeight()-y;
-		Vector2d forceVec = new Vector2d();
-		Vector2d shipVec = new Vector2d();
+		Vector2BD forceVec = new Vector2BD();
+		Vector2BD shipVec = new Vector2BD();
 		//shipVec.x = (float) ship.getX();
 		//shipVec.y = (float) ship.getY();
-		shipVec.x = (float) Display.getWidth()/2;
-		shipVec.y = (float) Display.getHeight()/2;
-		Vector2d mouseVec = new Vector2d();
-		mouseVec.x = x;
-		mouseVec.y = y;
-		Vector2d shipMouseVec = new Vector2d();
-		Vector2d.sub(mouseVec, shipVec, shipMouseVec);
-		float shipMouseMag = (float) Math.sqrt(Math.pow(shipMouseVec.x, 2)+Math.pow(shipMouseVec.y, 2));
-		forceVec.x = shipMouseVec.x / shipMouseMag;
-		forceVec.y = shipMouseVec.y / shipMouseMag;
+		shipVec.x = new BigDecimal(Display.getWidth()/2);
+		shipVec.y = new BigDecimal(Display.getHeight()/2);
+		Vector2BD mouseVec = new Vector2BD();
+		mouseVec.x = new BigDecimal(x);
+		mouseVec.y = new BigDecimal(y);
+		Vector2BD shipMouseVec = new Vector2BD();
+		Vector2BD.sub(mouseVec, shipVec, shipMouseVec);
+		forceVec = shipMouseVec.unitVector();
 		if(leftButtonDown){
-			forceVec.x = ship.getForce()*forceVec.x;
-			forceVec.y = ship.getForce()*forceVec.y;
+			forceVec = forceVec.scale(ship.getForce());
 			ship.applyForce(forceVec);
 		}
 

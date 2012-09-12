@@ -2,6 +2,7 @@ package cx.it.hyperbadger.spacezombies.explorer;
 
 import java.awt.Font;
 import java.awt.geom.Point2D;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
@@ -28,8 +29,8 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		this.solarSystem = solarSystem;
 		waypoints = new ArrayList<Waypoint>();
 		//some useful data
-		double shipVelocity = ship.getVelocity();
-		double shipForce = ship.getForce();
+		BigDecimal shipVelocity = ship.getVelocity();
+		BigDecimal shipForce = ship.getForce();
 		// ship.setForce(10000);
 		// ship.setAuto(true/false);
 		// ship.setAutoVelocity(autoVelocity);
@@ -72,10 +73,12 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		//the rest goes in the draw loop
 		
 		//waypoints
+		waypoints.add(new Waypoint(ship, solarSystem.findMass("Earth"),textureBuffer.getTexture("waypoint.png")));
+		waypoints.add(new Waypoint(ship, solarSystem.findMass("Moon"),textureBuffer.getTexture("waypoint.png")));
 		waypoints.add(new Waypoint(ship, solarSystem.findMass("Sun"),textureBuffer.getTexture("waypoint.png")));
 		
 		//setting the game scale
-		this.setScale(0.0001);
+		this.setScale(new BigDecimal("0.0001"));
 		//this.setScale(0.1);
 	}
 	/**

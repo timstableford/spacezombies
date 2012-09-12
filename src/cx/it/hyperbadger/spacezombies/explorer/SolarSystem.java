@@ -1,5 +1,6 @@
 package cx.it.hyperbadger.spacezombies.explorer;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 
@@ -52,7 +53,7 @@ public class SolarSystem implements Moveable{
 	public String getName(){
 		return name;
 	}
-	public void setScale(double scale){
+	public void setScale(BigDecimal scale){
 		for(Mass m: masses){
 			m.setScale(scale);
 		}

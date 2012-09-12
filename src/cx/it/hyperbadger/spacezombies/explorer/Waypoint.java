@@ -7,6 +7,8 @@ import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import java.awt.Font;
+import java.math.BigDecimal;
+import java.math.MathContext;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -14,7 +16,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.font.effects.ColorEffect;
 
 import cx.it.hyperbadger.spacezombies.TextureName;
-import cx.it.hyperbadger.spacezombies.Vector2d;
+import cx.it.hyperbadger.spacezombies.Vector2BD;
 import cx.it.hyperbadger.spacezombies.gui.GUIFont;
 
 public class Waypoint implements Drawable{
@@ -42,12 +44,12 @@ public class Waypoint implements Drawable{
 		textureName.getTexture().bind();
 		int h = textureName.getTexture().getImageHeight()/20;
 		int w = textureName.getTexture().getImageWidth()/20;
-		Vector2d a = new Vector2d(0,0);
-		Vector2d.sub(new Vector2d(destination.getX(),destination.getY()), new Vector2d(ship.getX(),ship.getY()), a);
+		Vector2BD a = new Vector2BD();
+		Vector2BD.sub(new Vector2BD(destination.getX(),destination.getY()), new Vector2BD(ship.getX(),ship.getY()), a);
 		a = a.unitVector();
-		a = a.scale(50);
-		int x = (int) (Display.getWidth()/2 + a.getX());
-		int y = (int) (Display.getHeight()/2 + a.getY());
+		a = a.scale(new BigDecimal("50"));
+		int x = (int) (Display.getWidth()/2 + a.getX().floatValue());
+		int y = (int) (Display.getHeight()/2 + a.getY().floatValue());
 		float rotation = (float) a.getDegrees()+90;
 		GL11.glTranslatef((x), (y), 0);
 		GL11.glRotatef(rotation, 0f, 0f, 1f);
@@ -66,8 +68,9 @@ public class Waypoint implements Drawable{
 		GL11.glRotatef(-rotation, 0f, 0f, 1f);
 		GL11.glTranslatef(-(x), -(y), 0);
 		//distance measurement
-		double targetDistanceAU = ship.distance(destination)/149598000000.0;
-		guiFont.drawString(x+15, y, targetDistanceAU+"AU");
+		MathContext mc = new MathContext(5);
+		BigDecimal targetDistanceAU = ship.getMe().distance(destination.getMe()).divide(new BigDecimal("149598000000"),mc);
+		guiFont.drawString(x+15, y, destination.getName()+" - "+targetDistanceAU+"AU");
 	}
 
 	@Override

@@ -1,64 +1,58 @@
 package cx.it.hyperbadger.spacezombies.explorer;
 
-import java.awt.geom.Point2D;
+import java.math.BigDecimal;
 
 import cx.it.hyperbadger.spacezombies.Game;
+import cx.it.hyperbadger.spacezombies.Vector2BD;
 
 public class Mass {
 	protected String name = "";
-	protected double originalMass = 0;
-	protected double mass = 0;
-	protected double x = 0, y = 0;
-	protected double scale = 1;
-	public Mass(double mass, double x, double y, String name){
+	protected BigDecimal originalMass = new BigDecimal(0);
+	protected BigDecimal mass = new BigDecimal(0);
+	protected BigDecimal x = new BigDecimal(0), y = new BigDecimal(0);
+	protected BigDecimal scale = new BigDecimal(1);
+	public Mass(BigDecimal mass, BigDecimal x, BigDecimal y, String name){
 		this.originalMass = mass;
 		this.mass = mass;
 		this.x = x;
 		this.y = y;
 		this.name = name;
 	}
-	public double getForceMagnitude(Mass other){
-		double distance = this.getMe().distance(other.getMe());
-		distance = Math.pow(distance,2);
-		if(distance<0.1){
-			distance = 0.1;
+	public BigDecimal getForceMagnitude(Mass other){
+		BigDecimal distance = this.getMe().distance(other.getMe());
+		distance = distance.pow(2);
+		if(distance.compareTo(new BigDecimal("0.1"))>0){
+			BigDecimal force = (Game.G.multiply(this.mass.multiply(other.getMass()))).divide(distance,Vector2BD.mathContext);
+			return force;
 		}
-		double force = (Game.G*this.mass*other.getMass()/distance);
-		return force;
+		return new BigDecimal(0);
 	}
-	public double getAccelerationMagnitude(Mass other){
-		double distance = this.getMe().distance(other.getMe());
-		distance = Math.pow(distance,2);
-		double force = ((Game.G*other.getMass())/distance);
+	public BigDecimal getAccelerationMagnitude(Mass other){
+		BigDecimal force = this.getForceMagnitude(other).divide(this.mass);
 		return force;
 	}
 	public String getName(){
 		return name;
 	}
-	public double getMass(){
+	public BigDecimal getMass(){
 		return mass;
 	}
-	public Point2D getMe(){
-		return new Point2D.Double(this.x,this.y);
+	public Vector2BD getMe(){
+		return new Vector2BD(x,y);
 	}
-	public void move(double dX, double dY){
-		double newX = dX+this.getX();
-		double newY = dY+this.getY();
+	public void move(BigDecimal dX, BigDecimal dY){
+		BigDecimal newX = dX.add(this.getX());
+		BigDecimal newY = dY.add(this.getY());
 		this.x = newX;
 		this.y = newY;
 	}
-	public double getX(){
+	public BigDecimal getX(){
 		return x;
 	}
-	public void setScale(double scale){
+	public void setScale(BigDecimal scale){
 		this.scale = scale;
 	}
-	public double getY(){
+	public BigDecimal getY(){
 		return y;
-	}
-	public double distance(Mass p){
-		Point2D a = new Point2D.Double(p.getX(),p.getY());
-		Point2D b = new Point2D.Double(this.getX(),this.getY());
-		return a.distance(b);
 	}
 }

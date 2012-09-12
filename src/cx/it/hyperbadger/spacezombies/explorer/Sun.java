@@ -6,12 +6,14 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
+import java.math.BigDecimal;
+
 import cx.it.hyperbadger.spacezombies.TextureName;
 
 public class Sun extends Mass implements Drawable{
-	private double planetRadius = 0;
+	private BigDecimal planetRadius;
 	private TextureName textureName = null;
-	public Sun(double mass, double x, double y, String name, String textureName, double planetRadius) {
+	public Sun(BigDecimal mass, BigDecimal x, BigDecimal y, String name, String textureName, BigDecimal planetRadius) {
 		super(mass, x, y, name);
 		this.planetRadius = planetRadius;
 		//load texture
@@ -23,13 +25,20 @@ public class Sun extends Mass implements Drawable{
 			textureName.getTexture().bind();
 			glBegin(GL_QUADS);
 			glTexCoord2f(0,0);
-			glVertex2f((float)(x*scale-planetRadius*scale),(float)(y*scale-planetRadius*scale)); //topleft
+			glVertex2f((x.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue()),
+					(y.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue())); //topleft
+			
 			glTexCoord2f(1,0);
-			glVertex2f((float)(x*scale+planetRadius*scale),(float)(y*scale-planetRadius*scale)); //top right
+			glVertex2f((x.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue()),
+					(y.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue())); //top right
+			
 			glTexCoord2f(1,1);
-			glVertex2f((float)(x*scale+planetRadius*scale),(float)(y*scale+planetRadius*scale)); //bottom right
+			glVertex2f((x.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue()),
+					(y.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue())); //bottom right
+			
 			glTexCoord2f(0,1);
-			glVertex2f((float)(x*scale-planetRadius*scale),(float)(y*scale+planetRadius*scale)); //bottom left
+			glVertex2f((x.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue()),
+					(y.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue())); //bottom left
 			glEnd();
 		}
 	}

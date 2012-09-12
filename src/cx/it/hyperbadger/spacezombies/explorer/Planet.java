@@ -1,21 +1,26 @@
 package cx.it.hyperbadger.spacezombies.explorer;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import cx.it.hyperbadger.spacezombies.Game;
 import cx.it.hyperbadger.spacezombies.TextureName;
+import cx.it.hyperbadger.spacezombies.Vector2BD;
 
 import static org.lwjgl.opengl.GL11.*;
 public class Planet extends Mass implements Drawable, Moveable{
-	private double planetRadius;
+	private BigDecimal planetRadius;
 	private Mass parentMass = null;
 	private ArrayList<Planet> planets;
-	private double initialVelocity = 0;
-	private double angle = 0;
-	private double orbitRadius = 0;
+	private BigDecimal initialVelocity = new BigDecimal(0);
+	private BigDecimal angle = new BigDecimal(0);
+	private BigDecimal orbitRadius = new BigDecimal(0);
 	private TextureName textureName = null;
-	public Planet(double orbitRadius, double initialAngle, double planetRadius, double mass, String name,String textureName, Mass parent){
-		super(mass,(double) (orbitRadius*Math.sin(initialAngle)+parent.getX()),(double) (orbitRadius*Math.cos(initialAngle)+parent.getY()),name);
+	public Planet(BigDecimal orbitRadius, BigDecimal initialAngle, BigDecimal planetRadius, BigDecimal mass, String name,String textureName, Mass parent){
+		super(mass,
+				(orbitRadius.multiply(new BigDecimal(Math.sin(initialAngle.doubleValue())))).add(parent.getX()),
+				(orbitRadius.multiply(new BigDecimal(Math.cos(initialAngle.doubleValue())))).add(parent.getY()),
+				name);
 		angle = initialAngle;
 		this.planetRadius = planetRadius;
 		this.planets = new ArrayList<Planet>();
@@ -27,7 +32,7 @@ public class Planet extends Mass implements Drawable, Moveable{
 			p.addChild(this);
 		}
 		this.parentMass = parent;
-		initialVelocity = Math.sqrt(Game.G*(parent.getMass()/(orbitRadius)));
+		initialVelocity = Vector2BD.sqrt(Game.G.multiply(parent.getMass().divide(orbitRadius,Vector2BD.mathContext)),Vector2BD.scale);
 		System.out.println("Initial velocity of "+name+" set to "+initialVelocity);
 	}
 	public void addChild(Planet child){
@@ -35,25 +40,32 @@ public class Planet extends Mass implements Drawable, Moveable{
 	}
 	public void move(){
 		//angle = angle + Math.pow(initialVelocity,0.1)/220;
-		angle = angle + (initialVelocity/orbitRadius)*(Game.delta/1000);
-		if(angle>Math.PI*2){
-			angle = 0;
+		angle = angle.add((initialVelocity.divide(orbitRadius,Vector2BD.mathContext)).multiply(new BigDecimal(Game.delta/1000)));
+		if(angle.compareTo(new BigDecimal(Math.PI*2))>0){
+			angle = new BigDecimal(0);
 		}
-		this.x = (double) (orbitRadius*Math.sin(angle)+parentMass.getX());
-		this.y = (double) (orbitRadius*Math.cos(angle)+parentMass.getY());
+		this.x = (orbitRadius.multiply(new BigDecimal(Math.sin(angle.doubleValue())))).add(parentMass.getX());
+		this.y = (orbitRadius.multiply(new BigDecimal(Math.cos(angle.doubleValue())))).add(parentMass.getY());
 	}
 	public void draw(){
 		if(textureName.getTexture()!=null){
 			textureName.getTexture().bind();
 			glBegin(GL_QUADS);
 			glTexCoord2f(0,0);
-			glVertex2f((float)(x*scale-planetRadius*scale),(float)(y*scale-planetRadius*scale)); //topleft
+			glVertex2f((x.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue()),
+					(y.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue())); //topleft
+			
 			glTexCoord2f(1,0);
-			glVertex2f((float)(x*scale+planetRadius*scale),(float)(y*scale-planetRadius*scale)); //top right
+			glVertex2f((x.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue()),
+					(y.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue())); //top right
+			
 			glTexCoord2f(1,1);
-			glVertex2f((float)(x*scale+planetRadius*scale),(float)(y*scale+planetRadius*scale)); //bottom right
+			glVertex2f((x.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue()),
+					(y.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue())); //bottom right
+			
 			glTexCoord2f(0,1);
-			glVertex2f((float)(x*scale-planetRadius*scale),(float)(y*scale+planetRadius*scale)); //bottom left
+			glVertex2f((x.floatValue()*scale.floatValue()-planetRadius.floatValue()*scale.floatValue()),
+					(y.floatValue()*scale.floatValue()+planetRadius.floatValue()*scale.floatValue())); //bottom left
 			glEnd();
 		}
 	}
