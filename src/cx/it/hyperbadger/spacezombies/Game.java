@@ -27,6 +27,7 @@ import static org.lwjgl.opengl.GL11.*;
 @SuppressWarnings("unused")
 public class Game {
 	private int fps, lastFPS;
+	public static final String title = "SpaceZombies";
 	private Planet planetEarth, theSun, theMoon;
 	public static final double G = 6.673*Math.pow(10,-11);
 	public static final double C = 299792458;
@@ -38,6 +39,10 @@ public class Game {
 	private int screenWidth = 1000, screenHeight = 700;
 	private GUI gui = null;
 	public static void main(String[] args){
+		String pS = System.getProperty("file.separator");
+		String os = System.getProperty("os.name").toLowerCase();
+		System.out.println(os);
+		System.setProperty("org.lwjgl.librarypath",System.getProperty("user.home")+pS+Game.title+pS+"native");
 		new Game();
 	}
 	public Game(){
@@ -100,7 +105,7 @@ public class Game {
 		sol.setScale(gui.getScale());
 		ship.setScale(gui.getScale());
 		sol.draw();
-		//detrsnalate
+		//de-translate
 		GL11.glTranslatef((float)x, (float)y, 0);
 		ship.draw();
 		//if gui draw
