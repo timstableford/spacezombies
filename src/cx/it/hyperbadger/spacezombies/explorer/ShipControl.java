@@ -17,8 +17,6 @@ public class ShipControl {
 		y = Display.getHeight()-y;
 		Vector2d forceVec = new Vector2d();
 		Vector2d shipVec = new Vector2d();
-		//shipVec.x = (float) ship.getX();
-		//shipVec.y = (float) ship.getY();
 		shipVec.x = (float) Display.getWidth()/2;
 		shipVec.y = (float) Display.getHeight()/2;
 		Vector2d mouseVec = new Vector2d();

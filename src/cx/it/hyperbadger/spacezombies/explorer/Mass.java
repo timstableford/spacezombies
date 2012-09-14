@@ -1,7 +1,5 @@
 package cx.it.hyperbadger.spacezombies.explorer;
 
-import java.awt.geom.Point2D;
-
 import cx.it.hyperbadger.spacezombies.Game;
 import cx.it.hyperbadger.spacezombies.Vector2d;
 
@@ -67,5 +65,15 @@ public abstract class Mass implements Collidable{
 	@Override
 	public Vector2d getLocation() {
 		return new Vector2d(this.getX(),this.getY());
+	}
+	public void setLocation(Vector2d d){
+		this.setX(d.getX());
+		this.setY(d.getY());
+	}
+	public void setX(double x){
+		this.x = x;
+	}
+	public void setY(double y){
+		this.y = y;
 	}
 }

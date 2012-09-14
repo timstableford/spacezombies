@@ -1,7 +1,9 @@
 package cx.it.hyperbadger.spacezombies;
 
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 
 import org.lwjgl.LWJGLException;
@@ -35,14 +37,17 @@ public class Game {
 	private static long time, lastFrame;
 	private SolarSystem sol = null;
 	private Ship ship = null;
+	private Console console = null;
 	public static long delta = 160;
 	private ShipControl shipControl = null;
 	private int screenWidth = 1000, screenHeight = 700;
 	private GUI gui = null;
+	private double centerX,centerY;
+	private Mass centerFocus = null;
+	private ArrayList<String> commands = new ArrayList<String>();
 	public static void main(String[] args){
 		String pS = System.getProperty("file.separator");
 		String os = System.getProperty("os.name").toLowerCase();
-		System.out.println(os);
 		System.setProperty("org.lwjgl.librarypath",System.getProperty("user.home")+pS+Game.title+pS+"native");
 		new Game();
 	}
@@ -75,20 +80,33 @@ public class Game {
 		sol.addMass(new Planet(149597887500.0,0,6378100,5.97219*Math.pow(10, 24),"Earth","earth.png",sol.findMass("Sun")));
 		sol.addMass(new Planet(385000000,0,1737100,7.34767309*Math.pow(10, 22),"Moon","moon.png",sol.findMass("Earth")));
 		ship = new Ship(10000,sol.findMass("Earth").getX(),sol.findMass("Earth").getY(),"spaceship.png");
+		ship.setAttracts(sol.getMasses());
+		this.setFocus(ship);
+		sol.addMass(ship);
 		shipControl = new ShipControl(ship);
 		//start gui
-		gui = new ExplorerGUI(ship, sol);
+		gui = new ExplorerGUI(ship, sol, this);
 		//initialize loop
 		Display.update();
 		Display.sync(60);
 		Game.delta = getDelta();
+		//initialize the console
+		console = new Console(ship,sol,gui,this);
+		Thread t = new Thread(console);
+		t.start();
 		while(!Display.isCloseRequested()){
 			loop();
 		}
 		//loop end destroy display
+		console.stop();
 		Display.destroy();
+		System.exit(0);
 	}
 	public void loop(){
+		for(String s: commands){
+			console.processLine(s);
+		}
+		commands = new ArrayList<String>();
 		//clear
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
 		//draw
@@ -96,30 +114,53 @@ public class Game {
 		if((gui!=null&&!gui.mouseInGUI())||gui==null){
 			shipControl.update();
 		}
-		ship.move(sol.getMasses());
-		ship.processCollisions(sol.getCollidable());
 		//translate
-		double x = ship.getX()*gui.getScale()-Display.getWidth()/2;
-		double y = ship.getY()*gui.getScale()-Display.getHeight()/2;
-		GL11.glTranslatef(-(float)x, -(float)y, 0);
+		checkCenter();
+		double x = (centerX*gui.getScale())-Display.getWidth()/2;
+		double y = (centerY*gui.getScale())-Display.getHeight()/2;
+		GL11.glPushMatrix();
+		
+		GL11.glTranslated(-x, -y, 0);
+		GL11.glScaled(gui.getScale(), gui.getScale(), gui.getScale());
 		//draw
 		//set ALL the scales
-		sol.setScale(gui.getScale());
-		ship.setScale(gui.getScale());
+		//sol.setScale(gui.getScale());
 		sol.draw();
 		//de-translate
-		GL11.glTranslatef((float)x, (float)y, 0);
-		ship.draw();
+		//GL11.glTranslated(x, y, 0);
 		//if gui draw
+		
+		GL11.glPopMatrix();
+		GL11.glPushMatrix();
 		if(gui!=null){
 			gui.draw();
 			gui.poll();
 		}
+		GL11.glPopMatrix();
 		//update
 		Display.update();
 		Display.sync(60);
-		Display.setTitle("Space Zombies - "+ship.getVelocity()/1000+"km/s");
+		BigDecimal b = new BigDecimal(ship.getVelocity());
+		BigDecimal c = new BigDecimal("1000");
+		MathContext m = new MathContext(4);
+		
+		BigDecimal d = b.divide(c,m);
+		Display.setTitle("Space Zombies - "+d+"km/s");
 		Game.delta = getDelta();
+	}
+	private void checkCenter(){
+		if(centerFocus!=null){
+			centerX = centerFocus.getX();
+			centerY = centerFocus.getY();
+		}
+	}
+	public void setFocus(Mass m){
+		centerFocus = m;
+	}
+	public void setFocus(Point2D a){
+		centerFocus = null;
+		centerX = a.getX();
+		centerY = a.getY();
 	}
 	public int getDelta() {
 		long time = getTime();
@@ -129,5 +170,11 @@ public class Game {
 	}
 	public long getTime() {
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
+	}
+	public Mass getFocus(){
+		return centerFocus;
+	}
+	public synchronized void addCommand(String s){
+		commands.add(s);
 	}
 }

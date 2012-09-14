@@ -38,7 +38,7 @@ public abstract class GUI{
 		}
 		return false;
 	}
-	public void setScale(double scale){
+	public synchronized void setScale(double scale){
 		this.scale = scale;
 	}
 	public double getScale(){

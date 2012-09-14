@@ -4,57 +4,60 @@ import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
-import static org.lwjgl.opengl.GL11.glVertex2f;
+import static org.lwjgl.opengl.GL11.glVertex2d;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import cx.it.hyperbadger.spacezombies.Game;
 import cx.it.hyperbadger.spacezombies.TextureName;
 import cx.it.hyperbadger.spacezombies.Vector2d;
 
-public class Ship extends Mass implements Drawable, Collidable{
+public class Ship extends Mass implements Drawable, Collidable, Moveable{
 	private TextureName textureName = null;
-	private float rotation = 0;
+	private double rotation = 0.0;
 	private boolean first = true;
 	private int h,w;
-	private double force = 1000000000000.0;
+	private double force = 100000000000.0;
 	private Vector2d velocity = new Vector2d();
 	private boolean auto = false;
-	private long autoVelocity = 50;
+	private double autoVelocity = 50;
+	private ArrayList<Mass> attracts = null;
 	public Ship(int mass, double x, double y, String textureName){
 		super(mass,x,y,"Ship");
 		this.textureName = new TextureName(textureName);
 		this.textureName.loadTexture();
-		h = this.textureName.getTexture().getImageHeight()/20;
-		w = this.textureName.getTexture().getImageWidth()/20;
+		h = this.textureName.getTexture().getImageHeight()/10;
+		w = this.textureName.getTexture().getImageWidth()/10;
 		velocity.set(0,0);
 	}
 	@Override
 	public void draw() {
 		textureName.getTexture().bind();
-		calculateAngle();
-		if(this.scale<0.6){
-			this.scale = 0.6;
-		}
-		GL11.glTranslatef((float)Display.getWidth()/2, (float)Display.getHeight()/2, 0);
-		GL11.glRotatef(rotation, 0f, 0f, 1f);
-		GL11.glTranslatef(-(float)Display.getWidth()/2, -(float)Display.getHeight()/2, 0);
+		//calculateAngle();
+		//if(this.scale<0.6){
+		//	this.scale = 0.6;
+		//}
+		/*calculateAngle();
+		GL11.glTranslated((x*scale), (y*scale), 0);
+		GL11.glRotated(rotation, 0f, 0f, 1f);
+		GL11.glTranslated(-(x*scale), -(y*scale), 0);*/
+		h=30;
+		w=60;
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
-    	glVertex2f((int)(Display.getWidth()/2-w*scale),(int)(Display.getHeight()/2-h*scale)); //topleft
-    	glTexCoord2f(1,0);
-    	glVertex2f((int)(Display.getWidth()/2+w*scale),(int)(Display.getHeight()/2-h*scale)); //top right
-    	glTexCoord2f(1,1);
-    	glVertex2f((int)(Display.getWidth()/2+w*scale),(int)(Display.getHeight()/2+h*scale)); //bottom right
-    	glTexCoord2f(0,1);
-    	glVertex2f((int)(Display.getWidth()/2-w*scale),(int)(Display.getHeight()/2+h*scale)); //bottom left
-    	glEnd();
-    	GL11.glTranslatef((float)Display.getWidth()/2, (float)Display.getHeight()/2, 0);
-		GL11.glRotatef(-rotation, 0f, 0f, 1f);
-		GL11.glTranslatef(-(float)Display.getWidth()/2, -(float)Display.getHeight()/2, 0);
+		glVertex2d((x*scale-w/2),(y*scale-h/2)); //topleft
+		glTexCoord2f(1,0);
+		glVertex2d((x*scale+w/2),(y*scale-h/2)); //top right
+		glTexCoord2f(1,1);
+		glVertex2d((x*scale+w/2),(y*scale+h/2)); //bottom right
+		glTexCoord2f(0,1);
+		glVertex2d((x*scale-w/2),(y*scale+h/2)); //bottom left
+		glEnd();/*
+		GL11.glTranslated((x*scale), (y*scale), 0);
+		GL11.glRotated(-rotation, 0f, 0f, 1f);
+		GL11.glTranslated(-(x*scale), -(y*scale), 0);*/
 	}
 	public void applyForce(Vector2d force){
 		calculateRelativity();
@@ -71,20 +74,30 @@ public class Ship extends Mass implements Drawable, Collidable{
 			}
 		}
 	}
-	public void move(ArrayList<Mass> attracts){
-		Vector2d planetForce = new Vector2d(0,0);
-		for(Mass m: attracts){
-			Vector2d.add(planetForce, getVectorForce(this,m), planetForce);
-		}
-		//we dont apply force initially, shit fucks up
-		if(!first){
-			this.applyForce(planetForce);
+	public void setAttracts(ArrayList<Mass> a){
+		this.attracts = a;
+	}
+	public void move(){
+		if(attracts!=null){
+			Vector2d planetForce = new Vector2d(0,0);
+			ArrayList<Collidable> a = new ArrayList<Collidable>();
+			for(Mass m: attracts){
+				if(m!=this){
+					Vector2d.add(planetForce, getVectorForce(this,m), planetForce);
+					a.add(m);
+				}
+			}
+			//we dont apply force initially, shit fucks up
+			if(!first){
+				this.applyForce(planetForce);
+			}
+			this.processCollisions(a);
 		}
 		first = false;
 		if(auto){
 			Vector2d a = new Vector2d(0,0);
 			double speed = velocity.length();
-			double over = Math.pow(autoVelocity - speed, 2);
+			double over = (autoVelocity - speed)*force/1000;
 			a = velocity.unitVector();
 			a.scale(over);
 			applyForce(a);
@@ -94,8 +107,8 @@ public class Ship extends Mass implements Drawable, Collidable{
 			velocity = velocity.unitVector();
 			velocity = velocity.scale(2.997*Math.pow(10,8));
 		}
-		this.x = this.x + velocity.x*Game.delta/1000;
-		this.y = this.y + velocity.y*Game.delta/1000;
+		this.setX(this.x + velocity.x*Game.delta/1000);
+		this.setY(this.y + velocity.y*Game.delta/1000);
 	}
 	private void calculateRelativity(){
 		//calculate relativity
@@ -104,28 +117,22 @@ public class Ship extends Mass implements Drawable, Collidable{
 	private Vector2d getVectorForce(Mass from, Mass to){
 		//from ship
 		//to planet
-		Vector2d ship = new Vector2d();
-		ship.x = (float)this.getX();
-		ship.y = (float)this.getY();
-		Vector2d mass = new Vector2d();
-		mass.x = (float)to.getX();
-		mass.y = (float)to.getY();
+		Vector2d ship = from.getLocation();
+		Vector2d mass = to.getLocation();
 		Vector2d force = new Vector2d();
 		Vector2d.sub(mass, ship, force);
 		Vector2d unitVector = new Vector2d();
-		float divisor = (float) Math.sqrt(Math.pow(force.x, 2)+Math.pow(force.y, 2));
-		unitVector.set(force.x/divisor,force.y/divisor);
-		float magnitude = (float) this.getForceMagnitude(to);
-		Vector2d magVec = new Vector2d();
-		magVec.set(unitVector.x*magnitude,unitVector.y*magnitude);
+		unitVector = force.unitVector();
+		double magnitude = this.getForceMagnitude(to);
+		Vector2d magVec = unitVector.scale(magnitude);
 		return magVec;
 	}
 	private void calculateAngle(){
 		Vector2d velocityUnit = new Vector2d();
-		float velocityMag = (float) Math.sqrt(Math.pow(velocity.x, 2)+Math.pow(velocity.y, 2));
+		double velocityMag = Math.sqrt(Math.pow(velocity.x, 2)+Math.pow(velocity.y, 2));
 		if(velocityMag!=0){
 			velocityUnit.set(velocity.x/velocityMag,velocity.y/velocityMag);
-			rotation = (float)velocityUnit.getDegrees()+180;
+			rotation = velocityUnit.getDegrees()+180;
 		}
 	}
 	public double getVelocity(){
@@ -142,7 +149,7 @@ public class Ship extends Mass implements Drawable, Collidable{
 	public double getForce() {
 		return force;
 	}
-	public void setForce(long force) {
+	public void setForce(double force) {
 		this.force = force;
 	}
 	public boolean isAuto() {
@@ -151,10 +158,10 @@ public class Ship extends Mass implements Drawable, Collidable{
 	public void setAuto(boolean auto) {
 		this.auto = auto;
 	}
-	public long getAutoVelocity() {
+	public double getAutoVelocity() {
 		return autoVelocity;
 	}
-	public void setAutoVelocity(long autoVelocity) {
+	public void setAutoVelocity(double autoVelocity) {
 		this.autoVelocity = autoVelocity;
 	}
 	@Override

@@ -48,13 +48,13 @@ public class Planet extends Mass implements Drawable, Moveable, Collidable{
 			textureName.getTexture().bind();
 			glBegin(GL_QUADS);
 			glTexCoord2f(0,0);
-			glVertex2f((float)(x*scale-planetRadius*scale),(float)(y*scale-planetRadius*scale)); //topleft
+			glVertex2d((x*scale-planetRadius*scale),(y*scale-planetRadius*scale)); //topleft
 			glTexCoord2f(1,0);
-			glVertex2f((float)(x*scale+planetRadius*scale),(float)(y*scale-planetRadius*scale)); //top right
+			glVertex2d((x*scale+planetRadius*scale),(y*scale-planetRadius*scale)); //top right
 			glTexCoord2f(1,1);
-			glVertex2f((float)(x*scale+planetRadius*scale),(float)(y*scale+planetRadius*scale)); //bottom right
+			glVertex2d((x*scale+planetRadius*scale),(y*scale+planetRadius*scale)); //bottom right
 			glTexCoord2f(0,1);
-			glVertex2f((float)(x*scale-planetRadius*scale),(float)(y*scale+planetRadius*scale)); //bottom left
+			glVertex2d((x*scale-planetRadius*scale),(y*scale+planetRadius*scale)); //bottom left
 			glEnd();
 		}
 	}

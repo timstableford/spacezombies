@@ -4,9 +4,11 @@ import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
-import static org.lwjgl.opengl.GL11.glVertex2f;
+import static org.lwjgl.opengl.GL11.glVertex2d;
 
 import java.awt.Font;
+import java.math.BigDecimal;
+import java.math.MathContext;
 
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -22,6 +24,7 @@ public class Waypoint implements Drawable{
 	private TextureName textureName = null;
 	private Ship ship = null;
 	private GUIFont guiFont;
+	@SuppressWarnings("unchecked")
 	public Waypoint(Ship ship, Mass destination, TextureName textureName){
 		this.destination = destination;
 		this.textureName = textureName;
@@ -40,34 +43,40 @@ public class Waypoint implements Drawable{
 	@Override
 	public void draw() {
 		textureName.getTexture().bind();
-		int h = textureName.getTexture().getImageHeight()/20;
-		int w = textureName.getTexture().getImageWidth()/20;
+		double h = textureName.getTexture().getImageHeight()/20;
+		double w = textureName.getTexture().getImageWidth()/20;
 		Vector2d a = new Vector2d(0,0);
 		Vector2d.sub(new Vector2d(destination.getX(),destination.getY()), new Vector2d(ship.getX(),ship.getY()), a);
 		a = a.unitVector();
 		a = a.scale(50);
-		int x = (int) (Display.getWidth()/2 + a.getX());
-		int y = (int) (Display.getHeight()/2 + a.getY());
-		float rotation = (float) a.getDegrees()+90;
-		GL11.glTranslatef((x), (y), 0);
-		GL11.glRotatef(rotation, 0f, 0f, 1f);
-		GL11.glTranslatef(-(x), -(y), 0);
+		double x = (Display.getWidth()/2 + a.getX());
+		double y = (Display.getHeight()/2 + a.getY());
+		double rotation = a.getDegrees()+90;
+		GL11.glTranslated((x), (y), 0);
+		GL11.glRotated(rotation, 0f, 0f, 1f);
+		GL11.glTranslated(-(x), -(y), 0);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
-    	glVertex2f((int)x-w,(int)y-h); //topleft
+    	glVertex2d(x-w,y-h); //topleft
     	glTexCoord2f(1,0);
-    	glVertex2f((int)x+w,(int)y-h); //top right
+    	glVertex2d(x+w,y-h); //top right
     	glTexCoord2f(1,1);
-    	glVertex2f((int)x+w,(int)y+h); //bottom right
+    	glVertex2d(x+w,y+h); //bottom right
     	glTexCoord2f(0,1);
-    	glVertex2f((int)x-w,(int)y+h); //bottom left
+    	glVertex2d(x-w,y+h); //bottom left
     	glEnd();
-    	GL11.glTranslatef((x), (y), 0);
-		GL11.glRotatef(-rotation, 0f, 0f, 1f);
-		GL11.glTranslatef(-(x), -(y), 0);
+    	GL11.glTranslated((x), (y), 0);
+		GL11.glRotated(-rotation, 0f, 0f, 1f);
+		GL11.glTranslated(-(x), -(y), 0);
 		//distance measurement
-		double targetDistanceAU = ship.distance(destination)/149598000000.0;
-		guiFont.drawString(x+15, y, targetDistanceAU+"AU");
+		//double targetDistanceAU = ship.distance(destination)/149598000000.0;
+		BigDecimal b = new BigDecimal(ship.distance(destination));
+		BigDecimal c = new BigDecimal("149598000000");
+		MathContext m = new MathContext(4);
+		
+		BigDecimal d = b.divide(c,m);
+		b.setScale(4,BigDecimal.ROUND_HALF_UP);
+		guiFont.drawString((float)x+15, (float)y, d+"AU");
 	}
 
 	@Override

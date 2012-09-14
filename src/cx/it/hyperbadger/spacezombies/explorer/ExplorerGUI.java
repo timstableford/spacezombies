@@ -8,6 +8,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.font.effects.ColorEffect;
 
+import cx.it.hyperbadger.spacezombies.Game;
 import cx.it.hyperbadger.spacezombies.TextureBuffer;
 import cx.it.hyperbadger.spacezombies.TextureName;
 import cx.it.hyperbadger.spacezombies.gui.GUI;
@@ -23,9 +24,11 @@ public class ExplorerGUI extends GUI implements GUIListener{
 	private SolarSystem solarSystem = null;
 	private ArrayList<Waypoint> waypoints = null;
 	private GUIFont guiFont = null;
-	public ExplorerGUI(Ship ship, SolarSystem solarSystem){
+	private Game game;
+	public ExplorerGUI(Ship ship, SolarSystem solarSystem, Game game){
 		this.ship = ship;
 		this.solarSystem = solarSystem;
+		this.game = game;
 		waypoints = new ArrayList<Waypoint>();
 		//some useful data
 		double shipVelocity = ship.getVelocity();
@@ -75,8 +78,13 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		waypoints.add(new Waypoint(ship, solarSystem.findMass("Earth"),textureBuffer.getTexture("waypoint.png")));
 		
 		//setting the game scale
-		this.setScale(0.0001);
+		this.setScale(1);
 		//this.setScale(0.1);
+		
+		
+		//setting the focus
+		//game.setFocus(Mass m) eg ship findMass("Earth") etc
+		//game.setFocus(Point2D p)
 	}
 	/**
 	 * This is here because it implements listening
@@ -90,8 +98,10 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		for(GUIComponent g: guiComponents){
 			g.draw();
 		}
-		for(Waypoint w: waypoints){
-			w.draw();
+		if(game.getFocus() instanceof Ship){
+			for(Waypoint w: waypoints){
+				w.draw();
+			}
 		}
 		//the rest of the text example
 		Point2D topLeft = new Point2D.Double(20,10);

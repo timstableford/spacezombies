@@ -60,7 +60,6 @@ public class SolarSystem implements Moveable{
 	public ArrayList<Collidable> getCollidable(){
 		ArrayList<Collidable> c = new ArrayList<Collidable>();
 		for(Mass p: masses){
-			Collidable s = (Collidable)p;
 			c.add(p);
 		}
 		return c;
