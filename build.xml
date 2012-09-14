@@ -10,7 +10,11 @@
     <property name="source" value="1.6"/>
     <path id="spacezombies.classpath">
         <pathelement location="bin"/>
-        <pathelement location="lib/*.jar"/>
+        <pathelement location="lib/jinput.jar"/>
+        <pathelement location="lib/lwjgl_util.jar"/>
+        <pathelement location="lib/lwjgl.jar"/>
+        <pathelement location="lib/slick.jar"/>
+        <pathelement location="lib/slick-util.jar"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
