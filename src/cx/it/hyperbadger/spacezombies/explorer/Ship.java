@@ -15,12 +15,12 @@ import cx.it.hyperbadger.spacezombies.Game;
 import cx.it.hyperbadger.spacezombies.TextureName;
 import cx.it.hyperbadger.spacezombies.Vector2d;
 
-public class Ship extends Mass implements Drawable{
+public class Ship extends Mass implements Drawable, Collidable{
 	private TextureName textureName = null;
 	private float rotation = 0;
 	private boolean first = true;
 	private int h,w;
-	private double force = 1000000000.0;
+	private double force = 1000000000000.0;
 	private Vector2d velocity = new Vector2d();
 	private boolean auto = false;
 	private long autoVelocity = 50;
@@ -63,6 +63,14 @@ public class Ship extends Mass implements Drawable{
 		calculateRelativity();
 	}
 
+	public void processCollisions(ArrayList<Collidable> toCheck){
+		for(Collidable c: toCheck){
+			if(c.collisionCheck(this)){
+				this.collision(c);
+				c.collision(this);
+			}
+		}
+	}
 	public void move(ArrayList<Mass> attracts){
 		Vector2d planetForce = new Vector2d(0,0);
 		for(Mass m: attracts){
@@ -148,5 +156,13 @@ public class Ship extends Mass implements Drawable{
 	}
 	public void setAutoVelocity(long autoVelocity) {
 		this.autoVelocity = autoVelocity;
+	}
+	@Override
+	public double getCollisionRadius() {
+		return (h+w)/4;
+	}
+	@Override
+	public void collision(Collidable object) {
+		System.out.println(this.getName()+" has collided with "+object.getName());
 	}
 }

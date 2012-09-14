@@ -72,7 +72,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		//the rest goes in the draw loop
 		
 		//waypoints
-		waypoints.add(new Waypoint(ship, solarSystem.findMass("Sun"),textureBuffer.getTexture("waypoint.png")));
+		waypoints.add(new Waypoint(ship, solarSystem.findMass("Earth"),textureBuffer.getTexture("waypoint.png")));
 		
 		//setting the game scale
 		this.setScale(0.0001);

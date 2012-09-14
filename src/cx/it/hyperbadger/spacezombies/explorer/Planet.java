@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import cx.it.hyperbadger.spacezombies.Game;
 import cx.it.hyperbadger.spacezombies.TextureName;
+import cx.it.hyperbadger.spacezombies.Vector2d;
 
 import static org.lwjgl.opengl.GL11.*;
-public class Planet extends Mass implements Drawable, Moveable{
+public class Planet extends Mass implements Drawable, Moveable, Collidable{
 	private double planetRadius;
 	private Mass parentMass = null;
 	private ArrayList<Planet> planets;
@@ -64,5 +65,17 @@ public class Planet extends Mass implements Drawable, Moveable{
 	@Override
 	public TextureName getTexture() {
 		return textureName;
+	}
+	@Override
+	public Vector2d getLocation() {
+		return new Vector2d(this.getX(),this.getY());
+	}
+	@Override
+	public double getCollisionRadius() {
+		return planetRadius;
+	}
+	@Override
+	public void collision(Collidable object) {
+		//ignore because generally we dont care if the planet is crashed into, only the ship
 	}
 }

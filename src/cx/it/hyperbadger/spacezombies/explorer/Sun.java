@@ -7,8 +7,9 @@ import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import cx.it.hyperbadger.spacezombies.TextureName;
+import cx.it.hyperbadger.spacezombies.Vector2d;
 
-public class Sun extends Mass implements Drawable{
+public class Sun extends Mass implements Drawable, Collidable{
 	private double planetRadius = 0;
 	private TextureName textureName = null;
 	public Sun(double mass, double x, double y, String name, String textureName, double planetRadius) {
@@ -40,6 +41,18 @@ public class Sun extends Mass implements Drawable{
 	@Override
 	public TextureName getTexture() {
 		return textureName;
+	}
+	@Override
+	public Vector2d getLocation() {
+		return new Vector2d(this.getX(),this.getY());
+	}
+	@Override
+	public double getCollisionRadius() {
+		return planetRadius;
+	}
+	@Override
+	public void collision(Collidable object) {
+		//ignore, because any collision with the sun will have no effect
 	}
 
 }

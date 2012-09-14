@@ -3,8 +3,9 @@ package cx.it.hyperbadger.spacezombies.explorer;
 import java.awt.geom.Point2D;
 
 import cx.it.hyperbadger.spacezombies.Game;
+import cx.it.hyperbadger.spacezombies.Vector2d;
 
-public class Mass {
+public abstract class Mass implements Collidable{
 	protected String name = "";
 	protected double originalMass = 0;
 	protected double mass = 0;
@@ -18,7 +19,7 @@ public class Mass {
 		this.name = name;
 	}
 	public double getForceMagnitude(Mass other){
-		double distance = this.getMe().distance(other.getMe());
+		double distance = this.distance(other);
 		distance = Math.pow(distance,2);
 		if(distance<0.1){
 			distance = 0.1;
@@ -27,7 +28,7 @@ public class Mass {
 		return force;
 	}
 	public double getAccelerationMagnitude(Mass other){
-		double distance = this.getMe().distance(other.getMe());
+		double distance = this.distance(other);
 		distance = Math.pow(distance,2);
 		double force = ((Game.G*other.getMass())/distance);
 		return force;
@@ -37,9 +38,6 @@ public class Mass {
 	}
 	public double getMass(){
 		return mass;
-	}
-	public Point2D getMe(){
-		return new Point2D.Double(this.x,this.y);
 	}
 	public void move(double dX, double dY){
 		double newX = dX+this.getX();
@@ -57,8 +55,17 @@ public class Mass {
 		return y;
 	}
 	public double distance(Mass p){
-		Point2D a = new Point2D.Double(p.getX(),p.getY());
-		Point2D b = new Point2D.Double(this.getX(),this.getY());
-		return a.distance(b);
+		return this.getLocation().distance(p.getLocation());
+	}
+	@Override
+	public boolean collisionCheck(Collidable object) {
+		if(this.getLocation().distance(object.getLocation())<(this.getCollisionRadius()+object.getCollisionRadius())){
+			return true;
+		}
+		return false;
+	}
+	@Override
+	public Vector2d getLocation() {
+		return new Vector2d(this.getX(),this.getY());
 	}
 }

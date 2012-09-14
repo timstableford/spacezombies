@@ -14,6 +14,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import cx.it.hyperbadger.spacezombies.explorer.Collidable;
 import cx.it.hyperbadger.spacezombies.explorer.ExplorerGUI;
 import cx.it.hyperbadger.spacezombies.explorer.Mass;
 import cx.it.hyperbadger.spacezombies.explorer.Planet;
@@ -73,7 +74,7 @@ public class Game {
 		sol.addMass(new Sun(1.9891*Math.pow(10, 30),0,0,"Sun","sun.png",695500000));
 		sol.addMass(new Planet(149597887500.0,0,6378100,5.97219*Math.pow(10, 24),"Earth","earth.png",sol.findMass("Sun")));
 		sol.addMass(new Planet(385000000,0,1737100,7.34767309*Math.pow(10, 22),"Moon","moon.png",sol.findMass("Earth")));
-		ship = new Ship(10000,2.512*Math.pow(10, 10),1.4747*Math.pow(10,11),"spaceship.png");
+		ship = new Ship(10000,sol.findMass("Earth").getX(),sol.findMass("Earth").getY(),"spaceship.png");
 		shipControl = new ShipControl(ship);
 		//start gui
 		gui = new ExplorerGUI(ship, sol);
@@ -96,6 +97,7 @@ public class Game {
 			shipControl.update();
 		}
 		ship.move(sol.getMasses());
+		ship.processCollisions(sol.getCollidable());
 		//translate
 		double x = ship.getX()*gui.getScale()-Display.getWidth()/2;
 		double y = ship.getY()*gui.getScale()-Display.getHeight()/2;
