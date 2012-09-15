@@ -31,6 +31,7 @@ public abstract class Mass implements Collidable{
 		double force = ((Game.G*other.getMass())/distance);
 		return force;
 	}
+	@Override
 	public String getName(){
 		return name;
 	}

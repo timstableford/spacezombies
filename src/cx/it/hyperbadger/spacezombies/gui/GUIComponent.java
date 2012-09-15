@@ -43,6 +43,7 @@ public abstract class GUIComponent implements Drawable{
 		bottom = (int) ((bottomRight.getY()*dH)/100);
 		right = (int) ((bottomRight.getX()*dW)/100);
 	}
+	@Override
 	public void draw(){
 		if(textureName.getTexture()!=null){
 			textureName.getTexture().bind();
@@ -65,9 +66,11 @@ public abstract class GUIComponent implements Drawable{
 		}
 		return false;
 	}
+	@Override
 	public void setTexture(TextureName t){
 		this.textureName = t;
 	}
+	@Override
 	public TextureName getTexture(){
 		return textureName;
 	}

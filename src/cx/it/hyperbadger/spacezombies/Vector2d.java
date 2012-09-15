@@ -181,7 +181,7 @@ public class Vector2d implements Serializable {
 		}else if (dls > 1.0f){
 			dls = 1.0f;
 		}
-		return (double)Math.acos(dls);
+		return Math.acos(dls);
 	}
 	/**
 	 * Get the angle this vector is at
@@ -281,6 +281,7 @@ public class Vector2d implements Serializable {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(64);
 

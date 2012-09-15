@@ -38,6 +38,7 @@ public class SolarSystem implements Moveable{
 			}
 		}
 	}
+	@Override
 	public void move(){
 		for(Mass p: masses){
 			if(p instanceof Moveable){

@@ -16,7 +16,7 @@ public class Planet extends Mass implements Drawable, Moveable, Collidable{
 	private double orbitRadius = 0;
 	private TextureName textureName = null;
 	public Planet(double orbitRadius, double initialAngle, double planetRadius, double mass, String name,String textureName, Mass parent){
-		super(mass,(double) (orbitRadius*Math.sin(initialAngle)+parent.getX()),(double) (orbitRadius*Math.cos(initialAngle)+parent.getY()),name);
+		super(mass,(orbitRadius*Math.sin(initialAngle)+parent.getX()),(orbitRadius*Math.cos(initialAngle)+parent.getY()),name);
 		angle = initialAngle;
 		this.planetRadius = planetRadius;
 		this.planets = new ArrayList<Planet>();
@@ -34,15 +34,17 @@ public class Planet extends Mass implements Drawable, Moveable, Collidable{
 	public void addChild(Planet child){
 		planets.add(child);
 	}
+	@Override
 	public void move(){
 		//angle = angle + Math.pow(initialVelocity,0.1)/220;
 		angle = angle + (initialVelocity/orbitRadius)*(Game.delta/1000);
 		if(angle>Math.PI*2){
 			angle = 0;
 		}
-		this.x = (double) (orbitRadius*Math.sin(angle)+parentMass.getX());
-		this.y = (double) (orbitRadius*Math.cos(angle)+parentMass.getY());
+		this.x = (orbitRadius*Math.sin(angle)+parentMass.getX());
+		this.y = (orbitRadius*Math.cos(angle)+parentMass.getY());
 	}
+	@Override
 	public void draw(){
 		if(textureName.getTexture()!=null){
 			textureName.getTexture().bind();

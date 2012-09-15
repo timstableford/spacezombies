@@ -8,8 +8,6 @@ import static org.lwjgl.opengl.GL11.glVertex2d;
 
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.GL11;
-
 import cx.it.hyperbadger.spacezombies.Game;
 import cx.it.hyperbadger.spacezombies.TextureName;
 import cx.it.hyperbadger.spacezombies.Vector2d;
@@ -77,6 +75,7 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 	public void setAttracts(ArrayList<Mass> a){
 		this.attracts = a;
 	}
+	@Override
 	public void move(){
 		if(attracts!=null){
 			Vector2d planetForce = new Vector2d(0,0);

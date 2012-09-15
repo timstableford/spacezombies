@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.font.effects.ColorEffect;
 
