@@ -41,8 +41,8 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 		GL11.glTranslated((x*scale), (y*scale), 0);
 		GL11.glRotated(rotation, 0f, 0f, 1f);
 		GL11.glTranslated(-(x*scale), -(y*scale), 0);*/
-		h=30;
-		w=60;
+		h=300;
+		w=600;
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
 		glVertex2d((x*scale-w/2),(y*scale-h/2)); //topleft

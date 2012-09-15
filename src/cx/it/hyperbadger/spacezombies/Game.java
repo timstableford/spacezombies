@@ -116,20 +116,22 @@ public class Game {
 		}
 		//translate
 		checkCenter();
-		double x = (centerX*gui.getScale())-Display.getWidth()/2;
-		double y = (centerY*gui.getScale())-Display.getHeight()/2;
+		double x = centerX*gui.getScale()-Display.getWidth()/2;
+		double y = centerY*gui.getScale()-Display.getHeight()/2;
 		GL11.glPushMatrix();
-		
 		GL11.glTranslated(-x, -y, 0);
+		GL11.glPushMatrix();
 		GL11.glScaled(gui.getScale(), gui.getScale(), gui.getScale());
+		
+		
 		//draw
 		//set ALL the scales
 		//sol.setScale(gui.getScale());
 		sol.draw();
 		//de-translate
-		//GL11.glTranslated(x, y, 0);
+		GL11.glTranslated(x, y, 0);
 		//if gui draw
-		
+		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 		GL11.glPushMatrix();
 		if(gui!=null){

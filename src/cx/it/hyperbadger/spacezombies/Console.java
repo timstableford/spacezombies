@@ -43,6 +43,7 @@ public class Console implements Runnable{
 	public void processLine(String line){
 		if(line.contains(" ")){
 			String[] split = line.split(" ");
+			if(split.length<2){ return; }
 			String a = split[0];
 			String b = split[1];
 			if("setlocation".equals(a)&&split.length==4){
