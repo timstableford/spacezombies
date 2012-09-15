@@ -76,7 +76,7 @@ public class Waypoint implements Drawable{
 		
 		BigDecimal d = b.divide(c,m);
 		b.setScale(4,BigDecimal.ROUND_HALF_UP);
-		guiFont.drawString((float)x+15, (float)y, d+"AU");
+		guiFont.drawString((float)x+15, (float)y, destination.getName()+"-"+d+"AU");
 	}
 
 	@Override
