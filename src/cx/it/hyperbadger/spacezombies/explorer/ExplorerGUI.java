@@ -15,6 +15,7 @@ import cx.it.hyperbadger.spacezombies.gui.GUIButton;
 import cx.it.hyperbadger.spacezombies.gui.GUIComponent;
 import cx.it.hyperbadger.spacezombies.gui.GUIEvent;
 import cx.it.hyperbadger.spacezombies.gui.GUIFont;
+import cx.it.hyperbadger.spacezombies.gui.GUIImage;
 import cx.it.hyperbadger.spacezombies.gui.GUIListener;
 
 public class ExplorerGUI extends GUI implements GUIListener{
@@ -24,6 +25,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 	private ArrayList<Waypoint> waypoints = null;
 	private GUIFont guiFont = null;
 	private Game game;
+	
 	public ExplorerGUI(Ship ship, SolarSystem solarSystem, Game game){
 		this.ship = ship;
 		this.solarSystem = solarSystem;
@@ -39,17 +41,41 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		ArrayList<TextureName> textures = new ArrayList<TextureName>();
 		textures.add(new TextureName("spaceship.png"));
 		textures.add(new TextureName("waypoint.png"));
-
+		textures.add(new TextureName("button.png"));
+		textures.add(new TextureName("distance.or.current speed field.png"));
+		textures.add(new TextureName("pointer button.png"));
+		textures.add(new TextureName("ship full shields status.png"));
+		textures.add(new TextureName("ship outline.png"));
+		textures.add(new TextureName("velocity bar.png"));
 		textureBuffer = new TextureBuffer(textures);
 		//initialize some components here and add them to an array
 		
-		//example button
+		//(hopefully) the current velocity display
+		/*
+		 * 1.set text field for current speed
+		 * 2.get current speed
+		 * 3.print current speed inside text field
+		 * 4.call for and print speed field .png
+		 */
+		GUIImage speedField = new GUIImage(new Point2D.Double(2,5), new Point2D.Double(19,13), textureBuffer.getTexture("distance.or.current speed field.png"), "current speed field");
+		GUIImage distanceField = new GUIImage(new Point2D.Double(2,12), new Point2D.Double(19,20), textureBuffer.getTexture("distance.or.current speed field.png"), "distance field");
+		GUIImage shipOutline= new GUIImage(new Point2D.Double(85,5), new Point2D.Double(105,20), textureBuffer.getTexture("ship outline.png"), "ship outline");
+		GUIImage shipFullShields= new GUIImage(new Point2D.Double(85,5), new Point2D.Double(104,19), textureBuffer.getTexture("ship full shields status.png"), "ship full shields");
+		
+		this.addComponent(speedField);
+		this.addComponent(distanceField);
+		this.addComponent(shipOutline);
+		this.addComponent(shipFullShields);
+		
+		/*//example button
 		GUIButton b = new GUIButton(new Point2D.Double(10,10),new Point2D.Double(14,14),textureBuffer.getTexture("spaceship.png"),"simple_button");
 		//set its listener to this
 		b.setListener(this);
 		//add the component to the draw loop
 		this.addComponent(b);
+		*/
 		
+	
 		//text example
 		/*
 		// load font from a .ttf file
