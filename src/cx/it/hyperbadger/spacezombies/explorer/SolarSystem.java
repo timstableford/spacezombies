@@ -30,9 +30,24 @@ public class SolarSystem implements Moveable{
 		}
 		return null;
 	}
+	public void setShipScale(double d){
+		for(Mass p: masses){
+			if(p instanceof Ship){
+				p.setScale(d);
+			}
+		}
+	}
 	public void draw(){
 		for(Mass p: masses){
-			if(p instanceof Drawable){
+			if(p instanceof Drawable && !(p instanceof Ship)){
+				Drawable d = (Drawable) p;
+				d.draw();
+			}
+		}
+	}
+	public void drawShips(){
+		for(Mass p: masses){
+			if(p instanceof Ship){
 				Drawable d = (Drawable) p;
 				d.draw();
 			}

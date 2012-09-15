@@ -69,7 +69,7 @@ public class Console implements Runnable{
 						return; 
 					}
 					if((n instanceof Planet)||(n instanceof Sun)){
-						m.setX(n.getX()+(n.getCollisionRadius()/100*105));
+						m.setX(n.getX()+(n.getCollisionRadius()/100*102));
 						m.setY(n.getY());
 					}else{
 					m.setLocation(n.getLocation());

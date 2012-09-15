@@ -73,7 +73,7 @@ public class Game {
         glEnable(GL_BLEND); 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         //antistropic filtering
-        glTexParameteri(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, 8);
+        glTexParameteri(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, 4);
 		//load planets
 		sol = new SolarSystem("Sole");
 		sol.addMass(new Sun(1.9891*Math.pow(10, 30),0,0,"Sun","sun.png",695500000));
@@ -129,9 +129,11 @@ public class Game {
 		//sol.setScale(gui.getScale());
 		sol.draw();
 		//de-translate
-		GL11.glTranslated(x, y, 0);
+		//GL11.glTranslated(x, y, 0);
 		//if gui draw
 		GL11.glPopMatrix();
+		sol.setShipScale(gui.getScale());
+		sol.drawShips();
 		GL11.glPopMatrix();
 		GL11.glPushMatrix();
 		if(gui!=null){
@@ -141,7 +143,7 @@ public class Game {
 		GL11.glPopMatrix();
 		//update
 		Display.update();
-		Display.sync(60);
+		Display.sync(40);
 		BigDecimal b = new BigDecimal(ship.getVelocity());
 		BigDecimal c = new BigDecimal("1000");
 		MathContext m = new MathContext(4);

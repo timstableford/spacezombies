@@ -8,6 +8,8 @@ import static org.lwjgl.opengl.GL11.glVertex2d;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.GL11;
+
 import cx.it.hyperbadger.spacezombies.Game;
 import cx.it.hyperbadger.spacezombies.TextureName;
 import cx.it.hyperbadger.spacezombies.Vector2d;
@@ -32,17 +34,18 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 	}
 	@Override
 	public void draw() {
-		textureName.getTexture().bind();
 		//calculateAngle();
 		//if(this.scale<0.6){
 		//	this.scale = 0.6;
 		//}
-		/*calculateAngle();
+		calculateAngle();
+		//GL11.glPushMatrix();
+		textureName.getTexture().bind();
 		GL11.glTranslated((x*scale), (y*scale), 0);
 		GL11.glRotated(rotation, 0f, 0f, 1f);
-		GL11.glTranslated(-(x*scale), -(y*scale), 0);*/
-		h=300;
-		w=600;
+		GL11.glTranslated(-(x*scale), -(y*scale), 0);
+		h=30;
+		w=60;
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
 		glVertex2d((x*scale-w/2),(y*scale-h/2)); //topleft
@@ -52,10 +55,11 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 		glVertex2d((x*scale+w/2),(y*scale+h/2)); //bottom right
 		glTexCoord2f(0,1);
 		glVertex2d((x*scale-w/2),(y*scale+h/2)); //bottom left
-		glEnd();/*
+		glEnd();
+		//GL11.glPopMatrix();/*
 		GL11.glTranslated((x*scale), (y*scale), 0);
 		GL11.glRotated(-rotation, 0f, 0f, 1f);
-		GL11.glTranslated(-(x*scale), -(y*scale), 0);*/
+		GL11.glTranslated(-(x*scale), -(y*scale), 0);
 	}
 	public void applyForce(Vector2d force){
 		calculateRelativity();
@@ -111,7 +115,7 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 	}
 	private void calculateRelativity(){
 		//calculate relativity
-		mass = originalMass/Math.sqrt(1-Math.pow(velocity.length()/Game.C,2));
+		//mass = originalMass/Math.sqrt(1-Math.pow(velocity.length()/Game.C,2));
 	}
 	private Vector2d getVectorForce(Mass from, Mass to){
 		//from ship
