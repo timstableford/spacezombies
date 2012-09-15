@@ -102,6 +102,12 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 			Vector2d a = new Vector2d(0,0);
 			double speed = velocity.length();
 			double over = (autoVelocity - speed)*force/1000;
+			if(over>force/1000){
+				over = force;
+			}
+			if(over<-force/1000){
+				over = -force;
+			}
 			a = velocity.unitVector();
 			a.scale(over);
 			applyForce(a);

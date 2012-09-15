@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.EXTTextureFilterAnisotropic;
@@ -42,6 +43,7 @@ public class Game {
 	private ShipControl shipControl = null;
 	private int screenWidth = 1000, screenHeight = 700;
 	private GUI gui = null;
+	private boolean fullscreen = false;
 	private ArrayList<String> commands = new ArrayList<String>();
 	public static void main(String[] args){
 		String pS = System.getProperty("file.separator");
@@ -55,8 +57,8 @@ public class Game {
 			Display.setTitle("Space Zombies");
 			Display.create();
 		} catch (LWJGLException e) {
-			System.err.println("Could not create display");
-			System.exit(0);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		//start opengl
 		glMatrixMode(GL_PROJECTION);
@@ -71,7 +73,7 @@ public class Game {
         glEnable(GL_BLEND); 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         //antistropic filtering
-        glTexParameteri(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, 4);
+        glTexParameteri(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, 8);
 		//load planets
 		sol = new SolarSystem("Sole");
 		sol.addMass(new Sun(1.9891*Math.pow(10, 30),0,0,"Sun","sun.png",695500000));
@@ -104,6 +106,10 @@ public class Game {
 			console.processLine(s);
 		}
 		commands = new ArrayList<String>();
+		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+			fullscreen = false;
+		}
+		fullscreen();
 		//clear
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
 		//draw
@@ -143,6 +149,32 @@ public class Game {
 		BigDecimal d = b.divide(c,m);
 		Display.setTitle("Space Zombies - "+d+"km/s");
 		Game.delta = getDelta();
+	}
+	private void fullscreen(){
+		if(fullscreen!=Display.isFullscreen()){
+			try {
+				int h = screenHeight;
+				int w = screenWidth;
+				if(fullscreen){
+					Display.setDisplayMode(Display.getDesktopDisplayMode());
+					h = Display.getDesktopDisplayMode().getHeight();
+					w = Display.getDesktopDisplayMode().getWidth();
+				}else{
+					Display.setDisplayMode(new DisplayMode(screenWidth,screenHeight));
+				}
+				glMatrixMode(GL_PROJECTION);
+				glLoadIdentity();
+				glOrtho(0, w, h, 0, 1, -1);
+				glMatrixMode(GL_MODELVIEW);
+				Display.setFullscreen(fullscreen);
+				System.out.println("fullscreen="+fullscreen+"h="+h+"w="+w);
+			} catch (LWJGLException e) {
+				System.err.println("Could not switch between fullscreen and window");
+			}
+		}
+	}
+	public void setFullscreen(boolean f){
+		fullscreen = f;
 	}
 	public int getDelta() {
 		long time = getTime();

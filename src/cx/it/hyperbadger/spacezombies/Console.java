@@ -106,6 +106,12 @@ public class Console implements Runnable{
 						return;
 					}
 				}
+			}else if("fullscreen".equals(a)){
+				if("true".equals(b)){
+					game.setFullscreen(true);
+				}else{
+					game.setFullscreen(false);
+				}
 			}
 		}else{
 			printCommands();
