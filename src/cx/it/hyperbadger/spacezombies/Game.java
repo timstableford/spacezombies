@@ -42,8 +42,6 @@ public class Game {
 	private ShipControl shipControl = null;
 	private int screenWidth = 1000, screenHeight = 700;
 	private GUI gui = null;
-	private double centerX,centerY;
-	private Mass centerFocus = null;
 	private ArrayList<String> commands = new ArrayList<String>();
 	public static void main(String[] args){
 		String pS = System.getProperty("file.separator");
@@ -114,8 +112,8 @@ public class Game {
 			shipControl.update();
 		}
 		//translate
-		double x = centerX*gui.getScale()-Display.getWidth()/2;
-		double y = centerY*gui.getScale()-Display.getHeight()/2;
+		double x = ship.getX()*gui.getScale()-Display.getWidth()/2;
+		double y = ship.getY()*gui.getScale()-Display.getHeight()/2;
 		GL11.glPushMatrix();
 		GL11.glTranslated(-x, -y, 0);
 		GL11.glPushMatrix();
@@ -154,9 +152,6 @@ public class Game {
 	}
 	public long getTime() {
 		return (Sys.getTime() * 1000) / Sys.getTimerResolution();
-	}
-	public Mass getFocus(){
-		return centerFocus;
 	}
 	public synchronized void addCommand(String s){
 		commands.add(s);

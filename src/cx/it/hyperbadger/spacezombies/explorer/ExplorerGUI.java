@@ -101,6 +101,8 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		
 		//waypoints
 		waypoints.add(new Waypoint(ship, solarSystem.findMass("Earth"),textureBuffer.getTexture("waypoint.png")));
+		waypoints.add(new Waypoint(ship, solarSystem.findMass("Sun"),textureBuffer.getTexture("waypoint.png")));
+		waypoints.add(new Waypoint(ship, solarSystem.findMass("Moon"),textureBuffer.getTexture("waypoint.png")));
 		
 		//setting the game scale
 		this.setScale(1);
@@ -123,10 +125,8 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		for(GUIComponent g: guiComponents){
 			g.draw();
 		}
-		if(game.getFocus() instanceof Ship){
-			for(Waypoint w: waypoints){
-				w.draw();
-			}
+		for(Waypoint w: waypoints){
+			w.draw();
 		}
 		//the rest of the text example
 		Point2D topLeft = new Point2D.Double(20,10);

@@ -42,6 +42,14 @@ public class Waypoint implements Drawable{
 	}
 	@Override
 	public void draw() {
+		if(destination instanceof Planet){
+			Planet p = (Planet)destination;
+			if(!(p.getParent() instanceof Sun)){
+				if(p.getLocation().distance(p.getParent().getLocation())<ship.getLocation().distance(p.getLocation())){
+					return;
+				}
+			}
+		}
 		textureName.getTexture().bind();
 		double h = textureName.getTexture().getImageHeight()/20;
 		double w = textureName.getTexture().getImageWidth()/20;

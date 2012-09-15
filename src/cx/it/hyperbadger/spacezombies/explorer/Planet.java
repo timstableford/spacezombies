@@ -34,6 +34,15 @@ public class Planet extends Mass implements Drawable, Moveable, Collidable{
 	public void addChild(Planet child){
 		planets.add(child);
 	}
+	public boolean hasChildren(){
+		if(planets!=null&&planets.size()>0){
+			return true;
+		}
+		return false;
+	}
+	public Mass getParent(){
+		return parentMass;
+	}
 	@Override
 	public void move(){
 		//angle = angle + Math.pow(initialVelocity,0.1)/220;
