@@ -8,6 +8,7 @@ import static org.lwjgl.opengl.GL11.glVertex2d;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import cx.it.hyperbadger.spacezombies.Game;
@@ -41,25 +42,25 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 		calculateAngle();
 		//GL11.glPushMatrix();
 		textureName.getTexture().bind();
-		GL11.glTranslated((x*scale), (y*scale), 0);
+		GL11.glTranslated((Display.getWidth()/2), (Display.getHeight()/2), 0);
 		GL11.glRotated(rotation, 0f, 0f, 1f);
-		GL11.glTranslated(-(x*scale), -(y*scale), 0);
+		GL11.glTranslated(-(Display.getWidth()/2), -(Display.getHeight()/2), 0);
 		h=30;
 		w=60;
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
-		glVertex2d((x*scale-w/2),(y*scale-h/2)); //topleft
+		glVertex2d((Display.getWidth()/2-w/2),(Display.getHeight()/2-h/2)); //topleft
 		glTexCoord2f(1,0);
-		glVertex2d((x*scale+w/2),(y*scale-h/2)); //top right
+		glVertex2d((Display.getWidth()/2+w/2),(Display.getHeight()/2-h/2)); //top right
 		glTexCoord2f(1,1);
-		glVertex2d((x*scale+w/2),(y*scale+h/2)); //bottom right
+		glVertex2d((Display.getWidth()/2+w/2),(Display.getHeight()/2+h/2)); //bottom right
 		glTexCoord2f(0,1);
-		glVertex2d((x*scale-w/2),(y*scale+h/2)); //bottom left
+		glVertex2d((Display.getWidth()/2-w/2),(Display.getHeight()/2+h/2)); //bottom left
 		glEnd();
 		//GL11.glPopMatrix();/*
-		GL11.glTranslated((x*scale), (y*scale), 0);
+		GL11.glTranslated((Display.getWidth()/2), (Display.getHeight()/2), 0);
 		GL11.glRotated(-rotation, 0f, 0f, 1f);
-		GL11.glTranslated(-(x*scale), -(y*scale), 0);
+		GL11.glTranslated(-(Display.getWidth()/2), -(Display.getHeight()/2), 0);
 	}
 	public void applyForce(Vector2d force){
 		calculateRelativity();

@@ -81,7 +81,6 @@ public class Game {
 		sol.addMass(new Planet(385000000,0,1737100,7.34767309*Math.pow(10, 22),"Moon","moon.png",sol.findMass("Earth")));
 		ship = new Ship(10000,sol.findMass("Earth").getX(),sol.findMass("Earth").getY(),"spaceship.png");
 		ship.setAttracts(sol.getMasses());
-		this.setFocus(ship);
 		sol.addMass(ship);
 		shipControl = new ShipControl(ship);
 		//start gui
@@ -115,25 +114,20 @@ public class Game {
 			shipControl.update();
 		}
 		//translate
-		checkCenter();
 		double x = centerX*gui.getScale()-Display.getWidth()/2;
 		double y = centerY*gui.getScale()-Display.getHeight()/2;
 		GL11.glPushMatrix();
 		GL11.glTranslated(-x, -y, 0);
 		GL11.glPushMatrix();
 		GL11.glScaled(gui.getScale(), gui.getScale(), gui.getScale());
-		
-		
-		//draw
-		//set ALL the scales
-		//sol.setScale(gui.getScale());
 		sol.draw();
 		//de-translate
 		//GL11.glTranslated(x, y, 0);
 		//if gui draw
 		GL11.glPopMatrix();
-		sol.setShipScale(gui.getScale());
-		sol.drawShips();
+		GL11.glPopMatrix();
+		GL11.glPushMatrix();
+		ship.draw();
 		GL11.glPopMatrix();
 		GL11.glPushMatrix();
 		if(gui!=null){
@@ -151,20 +145,6 @@ public class Game {
 		BigDecimal d = b.divide(c,m);
 		Display.setTitle("Space Zombies - "+d+"km/s");
 		Game.delta = getDelta();
-	}
-	private void checkCenter(){
-		if(centerFocus!=null){
-			centerX = centerFocus.getX();
-			centerY = centerFocus.getY();
-		}
-	}
-	public void setFocus(Mass m){
-		centerFocus = m;
-	}
-	public void setFocus(Point2D a){
-		centerFocus = null;
-		centerX = a.getX();
-		centerY = a.getY();
 	}
 	public int getDelta() {
 		long time = getTime();

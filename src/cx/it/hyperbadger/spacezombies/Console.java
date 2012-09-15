@@ -82,23 +82,6 @@ public class Console implements Runnable{
 				}catch(NumberFormatException e){
 					return;
 				}
-			}else if("setfocus".equals(a)&&split.length==2){
-				Mass m = sol.findMass(b);
-				if(m==null){ 
-					printCommands();
-					return;
-				}
-				game.setFocus(m);
-			}else if("setfocus".equals(a)&&split.length==3){
-				String c = split[2];
-				try{
-					double x = Double.parseDouble(b);
-					double y = Double.parseDouble(c);
-					game.setFocus(new Point2D.Double(x,y));
-				}catch(NumberFormatException e){
-					printCommands();
-					return;
-				}
 			}else if("setforce".equals(a)){
 				try{
 					double f = Double.parseDouble(b);
