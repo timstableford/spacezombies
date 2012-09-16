@@ -29,8 +29,6 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 		super(mass,x,y,"Ship");
 		this.textureName = new TextureName(textureName);
 		this.textureName.loadTexture();
-		h = this.textureName.getTexture().getImageHeight()/10;
-		w = this.textureName.getTexture().getImageWidth()/10;
 		velocity.set(0,0);
 	}
 	@Override

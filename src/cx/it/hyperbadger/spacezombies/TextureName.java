@@ -8,6 +8,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 public class TextureName {
 	private Texture texture = null;
 	private String name = null;
+	private boolean isLoading = false;
 	public TextureName(String name){
 		this.name = name;
 	}
@@ -21,14 +22,16 @@ public class TextureName {
 		return name;
 	}
 	public void loadTexture(){
-		if(texture==null){
-			try {
-				setTexture(TextureLoader.getTexture("PNG", ClassLoader.class.getResourceAsStream("/cx/it/hyperbadger/spacezombies/res/"+getName())));
-				System.out.println("Texture loaded: "+getName());
-			} catch (IOException e) {
-				System.err.println("Could not load texture: "+getName());
+		while(texture==null){
+			if(!isLoading){
+				try {
+					setTexture(TextureLoader.getTexture("PNG", ClassLoader.class.getResourceAsStream("/cx/it/hyperbadger/spacezombies/res/"+getName())));
+					System.out.println("Texture loaded: "+getName());
+				} catch (IOException e) {
+					System.err.println("Could not load texture: "+getName());
+				}
+				isLoading = true;
 			}
-			System.out.println("Texture loaded: "+name);
 		}
 	}
 }
