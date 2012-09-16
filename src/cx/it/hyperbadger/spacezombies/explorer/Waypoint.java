@@ -45,7 +45,7 @@ public class Waypoint implements Drawable{
 		if(destination instanceof Planet){
 			Planet p = (Planet)destination;
 			if(!(p.getParent() instanceof Sun)){
-				if(p.getLocation().distance(p.getParent().getLocation())<ship.getLocation().distance(p.getLocation())){
+				if((p.getLocation().distance(p.getParent().getLocation())*2)<ship.getLocation().distance(p.getLocation())){
 					return;
 				}
 			}
@@ -77,8 +77,7 @@ public class Waypoint implements Drawable{
 		GL11.glRotated(-rotation, 0f, 0f, 1f);
 		GL11.glTranslated(-(x), -(y), 0);
 		//distance measurement
-		//double targetDistanceAU = ship.distance(destination)/149598000000.0;
-		BigDecimal b = new BigDecimal(ship.distance(destination));
+		BigDecimal b = new BigDecimal(ship.distance(destination)-ship.getCollisionRadius());
 		BigDecimal c = new BigDecimal("149598000000");
 		MathContext m = new MathContext(4);
 		

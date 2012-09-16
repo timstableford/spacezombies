@@ -20,7 +20,7 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 	private double rotation = 0.0;
 	private boolean first = true;
 	private int h,w;
-	private double force = 100000000000.0;
+	private double force = 1000000000.0;
 	private Vector2d velocity = new Vector2d();
 	private boolean auto = false;
 	private double autoVelocity = 50;
@@ -120,7 +120,7 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 	}
 	private void calculateRelativity(){
 		//calculate relativity
-		//mass = originalMass/Math.sqrt(1-Math.pow(velocity.length()/Game.C,2));
+		mass = originalMass/Math.sqrt(1-Math.pow(velocity.length()/Game.C,2));
 	}
 	private Vector2d getVectorForce(Mass from, Mass to){
 		//from ship
