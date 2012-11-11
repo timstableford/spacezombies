@@ -158,6 +158,7 @@ public class Ship extends Mass implements Drawable, Collidable, Moveable{
 		return force;
 	}
 	public void setForce(double force) {
+		if(force<0){ force = 0; }
 		this.force = force;
 	}
 	public boolean isAuto() {

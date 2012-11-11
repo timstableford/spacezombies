@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.font.effects.ColorEffect;
 
@@ -23,11 +24,12 @@ public class ExplorerGUI extends GUI implements GUIListener{
 	private SolarSystem solarSystem = null;
 	private ArrayList<Waypoint> waypoints = null;
 	private Game game;
-	
-	public ExplorerGUI(Ship ship, SolarSystem solarSystem, Game game){
-		this.ship = ship;
+	private ShipControl shipControl;
+	public ExplorerGUI(ShipControl shipControl, SolarSystem solarSystem, Game game){
+		this.ship = shipControl.getShip();
 		this.solarSystem = solarSystem;
 		this.game = game;
+		this.shipControl = shipControl;
 		waypoints = new ArrayList<Waypoint>();
 		//some useful data
 		double shipVelocity = ship.getVelocity();
@@ -132,5 +134,21 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		Point2D topLeft = new Point2D.Double(20,10);
 		Point2D bottomRight = new Point2D.Double(45,15);
 		//guiFont.drawString(topLeft, bottomRight, "This is an example text");
+	}
+	@Override
+	public void poll(){
+		while(Mouse.next()){
+			for(GUIComponent g: guiComponents){
+				if(g instanceof GUIButton){
+					GUIButton b = (GUIButton)g;
+					if(b.checkEvent()){
+						break;
+					}
+				}
+				if(!mouseInGUI()){
+					shipControl.update();
+				}
+			}
+		}
 	}
 }

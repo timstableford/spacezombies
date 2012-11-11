@@ -11,6 +11,11 @@ public class ShipControl {
 		this.ship = ship;
 	}
 	public void update(){
+		int wheel = Mouse.getEventDWheel();
+		if(wheel!=0){
+			double nForce = ship.getForce()+Math.sqrt(ship.getForce()*2)*wheel;
+			ship.setForce(nForce);
+		}
 		boolean leftButtonDown = Mouse.isButtonDown(0);
 		int x = Mouse.getX();
 		int y = Mouse.getY();
@@ -32,6 +37,9 @@ public class ShipControl {
 			forceVec.y = ship.getForce()*forceVec.y;
 			ship.applyForce(forceVec);
 		}
-
+		
+	}
+	public Ship getShip(){
+		return ship;
 	}
 }
