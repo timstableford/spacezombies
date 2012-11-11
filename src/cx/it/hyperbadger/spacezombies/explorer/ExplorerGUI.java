@@ -14,7 +14,6 @@ import cx.it.hyperbadger.spacezombies.gui.GUI;
 import cx.it.hyperbadger.spacezombies.gui.GUIButton;
 import cx.it.hyperbadger.spacezombies.gui.GUIComponent;
 import cx.it.hyperbadger.spacezombies.gui.GUIEvent;
-import cx.it.hyperbadger.spacezombies.gui.GUIFont;
 import cx.it.hyperbadger.spacezombies.gui.GUIImage;
 import cx.it.hyperbadger.spacezombies.gui.GUIListener;
 
@@ -23,7 +22,6 @@ public class ExplorerGUI extends GUI implements GUIListener{
 	private Ship ship = null;
 	private SolarSystem solarSystem = null;
 	private ArrayList<Waypoint> waypoints = null;
-	private GUIFont guiFont = null;
 	private Game game;
 	
 	public ExplorerGUI(Ship ship, SolarSystem solarSystem, Game game){
@@ -87,7 +85,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 */
+		 
 		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
 		guiFont = new GUIFont(awtFont);
 		guiFont.getEffects().add(new ColorEffect(java.awt.Color.white));
@@ -98,7 +96,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 	       // Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
 	    }
 		//the rest goes in the draw loop
-		
+		*/
 		//waypoints
 	    //automatically add all bodies except ships in the system
 		for(Mass m: solarSystem.getMasses()){
@@ -133,6 +131,6 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		//the rest of the text example
 		Point2D topLeft = new Point2D.Double(20,10);
 		Point2D bottomRight = new Point2D.Double(45,15);
-		guiFont.drawString(topLeft, bottomRight, "This is an example text");
+		//guiFont.drawString(topLeft, bottomRight, "This is an example text");
 	}
 }

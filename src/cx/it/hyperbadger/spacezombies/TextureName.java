@@ -1,6 +1,12 @@
 package cx.it.hyperbadger.spacezombies;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -32,6 +38,16 @@ public class TextureName {
 				}
 				isLoading = true;
 			}
+		}
+	}
+	public void loadTexture(BufferedImage bufferedImage){
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			ImageIO.write(bufferedImage, "png", baos);
+			InputStream is = new ByteArrayInputStream(baos.toByteArray());
+			setTexture(TextureLoader.getTexture("png", is));
+		} catch (IOException e) {
+			System.err.println("Could not convetr buffered image to texture");
 		}
 	}
 }

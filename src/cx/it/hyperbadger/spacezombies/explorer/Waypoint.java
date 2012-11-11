@@ -6,39 +6,22 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 
-import java.awt.Font;
-import java.math.BigDecimal;
-import java.math.MathContext;
-
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.font.effects.ColorEffect;
 
 import cx.it.hyperbadger.spacezombies.TextureName;
 import cx.it.hyperbadger.spacezombies.Vector2d;
-import cx.it.hyperbadger.spacezombies.gui.GUIFont;
 
 public class Waypoint implements Drawable{
 	private Mass destination = null;
 	private TextureName textureName = null;
 	private Ship ship = null;
-	private GUIFont guiFont;
-	@SuppressWarnings("unchecked")
 	public Waypoint(Ship ship, Mass destination, TextureName textureName){
 		this.destination = destination;
 		this.textureName = textureName;
 		this.ship = ship;
 		textureName.loadTexture();
-		Font awtFont = new Font("Times New Roman", Font.BOLD, 12);
-		guiFont = new GUIFont(awtFont);
-		guiFont.getEffects().add(new ColorEffect(java.awt.Color.white));
-	    guiFont.addAsciiGlyphs();
-	    try {
-	        guiFont.loadGlyphs();
-	    } catch (SlickException ex) {
-	       // Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-	    }
+		//add font loading here
 	}
 	@Override
 	public void draw() {
@@ -77,13 +60,13 @@ public class Waypoint implements Drawable{
 		GL11.glRotated(-rotation, 0f, 0f, 1f);
 		GL11.glTranslated(-(x), -(y), 0);
 		//distance measurement
-		BigDecimal b = new BigDecimal(ship.distance(destination)-ship.getCollisionRadius());
-		BigDecimal c = new BigDecimal("149598000000");
-		MathContext m = new MathContext(4);
+		//BigDecimal b = new BigDecimal(ship.distance(destination)-ship.getCollisionRadius());
+		//BigDecimal c = new BigDecimal("149598000000");
+		//MathContext m = new MathContext(4);
 		
-		BigDecimal d = b.divide(c,m);
-		b.setScale(4,BigDecimal.ROUND_HALF_UP);
-		guiFont.drawString((float)x+15, (float)y, destination.getName()+"-"+d+"AU");
+		//BigDecimal d = b.divide(c,m);
+		//b.setScale(4,BigDecimal.ROUND_HALF_UP);
+		//guiFont.drawString((float)x+15, (float)y, destination.getName()+"-"+d+"AU");
 	}
 
 	@Override

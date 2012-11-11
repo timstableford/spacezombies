@@ -14,7 +14,7 @@ import cx.it.hyperbadger.spacezombies.TextureName;
 import cx.it.hyperbadger.spacezombies.explorer.Drawable;
 
 public abstract class GUIComponent implements Drawable{
-	private Point2D topLeft = null, bottomRight = null;
+	protected Point2D topLeft = null, bottomRight = null;
 	protected int top,bottom,left,right;
 	protected String name = null;
 	protected TextureName textureName = null;
