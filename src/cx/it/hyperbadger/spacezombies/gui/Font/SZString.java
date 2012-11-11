@@ -9,18 +9,16 @@ import cx.it.hyperbadger.spacezombies.gui.GUIComponent;
 
 public class SZString extends GUIComponent{
 	private BufferedImage image = null;
-	private String text;
 	private SZFont font;
-	//c GUIComponent(Point2D topLeft, Point2D bottomRight, TextureName textureName, String name){
 	public SZString(String input, SZFont font, Point2D topLeft, Point2D bottomRight){
 		super(topLeft,bottomRight,null,input);
-		this.text = input;
+		this.name = input;
 		this.font = font;
-		this.textureName = new TextureName(text);
+		this.textureName = new TextureName(name);
 		render();
 	}
 	public BufferedImage render(){
-		for(char c: text.toCharArray()){
+		for(char c: name.toCharArray()){
 			BufferedImage toAdd = font.charToImage(c);
 			if(toAdd!=null){
 				this.image = append(this.image,toAdd);
@@ -30,7 +28,7 @@ public class SZString extends GUIComponent{
 		return image;
 	}
 	public void setText(String text){
-		this.text = text;
+		this.name = text;
 		render();
 	}
 	public BufferedImage getImage(){
@@ -38,7 +36,7 @@ public class SZString extends GUIComponent{
 		return image;
 	}
 	public SZString append(SZString other){
-		SZString ret = new SZString(text+other.text,font,this.topLeft,
+		SZString ret = new SZString(name+other.name,font,this.topLeft,
 				new Point2D.Double(this.bottomRight.getX()+other.bottomRight.getX(),this.bottomRight.getY()));
 		ret.image = append(this.getImage(),other.getImage());
 		ret.textureName.loadTexture(this.image);
