@@ -137,6 +137,7 @@ public class Game {
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);	
 		//draw
 		sol.move();
+		shipControl.update();
 		//translate
 		double x = ship.getX()*gui.getScale()-Display.getWidth()/2;
 		double y = ship.getY()*gui.getScale()-Display.getHeight()/2;

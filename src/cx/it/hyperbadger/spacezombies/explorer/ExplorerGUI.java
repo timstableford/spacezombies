@@ -77,28 +77,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		
 	
 		//text example
-		/*
-		// load font from a .ttf file
-		try {
-			InputStream inputStream	= ResourceLoader.getResourceAsStream("myfont.ttf");
 
-			Font awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-			awtFont = awtFont.deriveFont(24f); // set font size
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		 
-		Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
-		guiFont = new GUIFont(awtFont);
-		guiFont.getEffects().add(new ColorEffect(java.awt.Color.white));
-	    guiFont.addAsciiGlyphs();
-	    try {
-	        guiFont.loadGlyphs();
-	    } catch (SlickException ex) {
-	       // Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-		//the rest goes in the draw loop
-		*/
 		//waypoints
 	    //automatically add all bodies except ships in the system
 		for(Mass m: solarSystem.getMasses()){
@@ -145,9 +124,9 @@ public class ExplorerGUI extends GUI implements GUIListener{
 						break;
 					}
 				}
-				if(!mouseInGUI()){
-					shipControl.update();
-				}
+			}
+			if(!mouseInGUI()){
+				shipControl.updatePeriodic();
 			}
 		}
 	}
