@@ -3,6 +3,7 @@ package cx.it.hyperbadger.spacezombies.explorer;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.SlickException;
@@ -17,6 +18,8 @@ import cx.it.hyperbadger.spacezombies.gui.GUIComponent;
 import cx.it.hyperbadger.spacezombies.gui.GUIEvent;
 import cx.it.hyperbadger.spacezombies.gui.GUIImage;
 import cx.it.hyperbadger.spacezombies.gui.GUIListener;
+import cx.it.hyperbadger.spacezombies.gui.Font.SZFont;
+import cx.it.hyperbadger.spacezombies.gui.Font.SZString;
 
 public class ExplorerGUI extends GUI implements GUIListener{
 	private TextureBuffer textureBuffer = null;
@@ -24,6 +27,8 @@ public class ExplorerGUI extends GUI implements GUIListener{
 	private SolarSystem solarSystem = null;
 	private ArrayList<Waypoint> waypoints = null;
 	private Game game;
+	private SZFont szf;
+	private LinkedList<SZString> strings;
 	private ShipControl shipControl;
 	public ExplorerGUI(ShipControl shipControl, SolarSystem solarSystem, Game game){
 		this.ship = shipControl.getShip();
@@ -31,6 +36,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		this.game = game;
 		this.shipControl = shipControl;
 		waypoints = new ArrayList<Waypoint>();
+		strings = new LinkedList<SZString>();
 		//some useful data
 		double shipVelocity = ship.getVelocity();
 		double shipForce = ship.getForce();
@@ -77,7 +83,8 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		
 	
 		//text example
-
+		szf = new SZFont("/cx/it/hyperbadger/spacezombies/gui/Font/SZM/");
+		strings.add(new SZString("TEST", szf, new Point2D.Double(20,10), new Point2D.Double(60,30)));
 		//waypoints
 	    //automatically add all bodies except ships in the system
 		for(Mass m: solarSystem.getMasses()){
@@ -108,6 +115,9 @@ public class ExplorerGUI extends GUI implements GUIListener{
 		}
 		for(Waypoint w: waypoints){
 			w.draw();
+		}
+		for(SZString s: strings){
+			s.draw();
 		}
 		//the rest of the text example
 		Point2D topLeft = new Point2D.Double(20,10);

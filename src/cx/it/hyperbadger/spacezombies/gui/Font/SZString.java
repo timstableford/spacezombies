@@ -15,24 +15,25 @@ public class SZString extends GUIComponent{
 		this.name = input;
 		this.font = font;
 		this.textureName = new TextureName(name);
-		render();
+		this.image = render();
 	}
 	public BufferedImage render(){
+		BufferedImage ret = this.image;
 		for(char c: name.toCharArray()){
 			BufferedImage toAdd = font.charToImage(c);
 			if(toAdd!=null){
-				this.image = append(this.image,toAdd);
-				textureName.loadTexture(this.image);
+				ret = append(ret,toAdd);
+				textureName.loadTexture(ret);
 			}
 		}
-		return image;
+		return ret;
 	}
 	public void setText(String text){
 		this.name = text;
 		render();
 	}
 	public BufferedImage getImage(){
-		if(image==null){ render(); }
+		if(image==null){ image=render(); }
 		return image;
 	}
 	public SZString append(SZString other){
@@ -43,10 +44,11 @@ public class SZString extends GUIComponent{
 		return ret;
 	}
 	private BufferedImage append(BufferedImage start, BufferedImage end){
-		BufferedImage ret = new BufferedImage(start.getWidth()+end.getWidth(),start.getHeight()+end.getHeight(),BufferedImage.TYPE_INT_ARGB);
+		if(start==null){ return end; }
+		BufferedImage ret = new BufferedImage(start.getWidth()+end.getWidth(),start.getHeight(),BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = ret.createGraphics();
 		g2.drawImage(start, 0, 0, start.getWidth(), start.getHeight(), 0, 0, start.getWidth(), start.getHeight(), null);
-		g2.drawImage(end, start.getWidth(), 0, start.getWidth()+end.getWidth(), start.getHeight(), 0, 0, start.getWidth()+end.getWidth(), start.getHeight(), null);
+		g2.drawImage(end, start.getWidth(), 0, start.getWidth()+end.getWidth(), start.getHeight(), 0, 0, end.getWidth(), end.getHeight(), null);
 		return ret;
 	}
 }

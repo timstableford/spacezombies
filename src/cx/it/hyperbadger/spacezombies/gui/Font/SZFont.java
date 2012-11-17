@@ -17,9 +17,20 @@ public class SZFont {
 		if(letters.containsKey(input)){
 			return letters.get(input);
 		}
+		String letter = null;
+		switch(input){
+		case '.':
+			letter = "dot";
+			break;
+		default:
+			letter = input+"";
+			letter = letter.toUpperCase();
+		}
 		BufferedImage i;
 		try {
-			i = ImageIO.read(ClassLoader.class.getResourceAsStream(fontPackage+input+".png"));
+			String source = fontPackage+letter+".png";
+			System.out.println(source);
+			i = ImageIO.read(ClassLoader.class.getResourceAsStream(source));
 			SZLetter t = new SZLetter(i,input);
 			letters.put(input, t);
 			return t;
