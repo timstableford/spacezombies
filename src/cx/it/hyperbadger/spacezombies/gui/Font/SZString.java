@@ -33,6 +33,7 @@ public class SZString extends GUIComponent{
 	public void setText(String text){
 		this.name = text;
 		render();
+		calculateLocation();
 	}
 	public BufferedImage getImage(){
 		if(image==null){ image=render(); }
