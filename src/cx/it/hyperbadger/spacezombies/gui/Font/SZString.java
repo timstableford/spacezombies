@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import org.lwjgl.opengl.Display;
+
 import cx.it.hyperbadger.spacezombies.TextureName;
 import cx.it.hyperbadger.spacezombies.gui.GUIComponent;
 
@@ -12,7 +14,7 @@ public class SZString extends GUIComponent{
 	private SZFont font;
 	public SZString(String input, SZFont font, Point2D topLeft, Point2D bottomRight){
 		super(topLeft,bottomRight,null,input);
-		this.name = input;
+		calculateLocation();
 		this.font = font;
 		this.textureName = new TextureName(name);
 		this.image = render();
@@ -50,5 +52,31 @@ public class SZString extends GUIComponent{
 		g2.drawImage(start, 0, 0, start.getWidth(), start.getHeight(), 0, 0, start.getWidth(), start.getHeight(), null);
 		g2.drawImage(end, start.getWidth(), 0, start.getWidth()+end.getWidth(), start.getHeight(), 0, 0, end.getWidth(), end.getHeight(), null);
 		return ret;
+	}
+	@Override
+	protected void calculateLocation(){
+		int dW = Display.getWidth();
+		int dH = Display.getHeight();
+		left = (int) ((topLeft.getX()*dW)/100);
+		top = (int) ((topLeft.getY()*dH)/100);
+		bottom = (int) ((bottomRight.getY()*dH)/100);
+		right = (int) ((bottomRight.getX()*dW)/100);
+		double w = right-left;
+		double h = bottom-top;
+		double hwr = h/w;
+		double ihwr = 2.0/((double)name.length());
+		if(hwr>ihwr){
+			//if its too long for the width, extra space in height
+			double nh = ihwr*w;
+			double remainder = h-nh;
+			top = (int) (top+remainder/2);
+			bottom = (int) (bottom-remainder/2);
+		}else if(hwr<ihwr){
+			//if its too wide for the height, extra space in width
+			double nw = h/ihwr;
+			double remainder = w-nw;
+			left = (int)(left+remainder/2);
+			right = (int)(right-remainder/2);
+		}
 	}
 }

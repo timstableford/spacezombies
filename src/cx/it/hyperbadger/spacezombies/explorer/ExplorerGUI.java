@@ -84,7 +84,7 @@ public class ExplorerGUI extends GUI implements GUIListener{
 	
 		//text example
 		szf = new SZFont("/cx/it/hyperbadger/spacezombies/gui/Font/SZM/");
-		strings.add(new SZString("TEST", szf, new Point2D.Double(20,10), new Point2D.Double(60,30)));
+		strings.add(new SZString("TEST", szf, new Point2D.Double(20,10), new Point2D.Double(30,20)));
 		//waypoints
 	    //automatically add all bodies except ships in the system
 		for(Mass m: solarSystem.getMasses()){

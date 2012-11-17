@@ -35,7 +35,7 @@ public abstract class GUIComponent implements Drawable{
 		this.bottomRight = bottomRight;
 		calculateLocation();
 	}
-	private void calculateLocation(){
+	protected void calculateLocation(){
 		int dW = Display.getWidth();
 		int dH = Display.getHeight();
 		left = (int) ((topLeft.getX()*dW)/100);
